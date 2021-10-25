@@ -1,15 +1,23 @@
 const express = require('express')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+
+const { authRouter }= require('./routes/auth')
 
 const Cat = require('./models/Cat')
 
-const app = express()
-
 const PORT = process.env.PORT || 5000
+
+const app = express()
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cookieParser())
 
 app.get('/', (req, res) => {
   const { name } = req.query
   res.send(`Hello ${name}!`)
 })
+
+app.use('/auth', authRouter)
 
 app.get('/cats', async (req, res) => {
   const cats = await Cat.find()
