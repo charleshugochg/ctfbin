@@ -6,5 +6,4 @@ COPY app/package*.json ./
 
 RUN npm install
 
-RUN useradd -m app
-USER app
+USER node

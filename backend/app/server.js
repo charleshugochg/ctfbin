@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser')
 
 const { authRouter } = require('./routes/auth')
 const { binRouter } = require('./routes/bin')
+const { documentRouter } = require('./routes/document')
 
 const PORT = process.env.PORT || 5000
 
@@ -11,8 +12,9 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 
-app.use('/', express.static('static'))
+app.use('/', express.static('./static'))
 
+app.use('/documents', documentRouter)
 app.use('/auth', authRouter)
 app.use('/bin', binRouter)
 
