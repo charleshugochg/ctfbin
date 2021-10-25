@@ -15,12 +15,12 @@ app.use(cookieParser())
 
 app.use('/', express.static('./static'))
 
-app.use('/documents', documentRouter)
-app.use('/auth', authRouter)
-app.use('/bin', binRouter)
-app.use('/postit', postitRouter)
+app.use('/api/documents', documentRouter)
+app.use('/api/auth', authRouter)
+app.use('/api/bin', binRouter)
+app.use('/api/postit', postitRouter)
 
-app.use('/delay', async (req, res) => {
+app.use('/api/delay', async (req, res) => {
   const timeout = req.query.timeout || 0
   await new Promise(resolve => setTimeout(resolve, timeout))
   res.status(404).send('Time\'s up!')
