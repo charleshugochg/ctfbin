@@ -11,9 +11,7 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 
-app.get('/', (req, res) => {
-  res.send(`Hello World!`)
-})
+app.use('/', express.static('static'))
 
 app.use('/auth', authRouter)
 app.use('/bin', binRouter)
