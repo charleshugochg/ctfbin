@@ -1,3 +1,14 @@
-h1 {
-  margin: 0;
+:root {
+  --primary: #3D4BCC;
+  --primary-variant: #4150D9;
+  --background: #15161C;
+  --background-gray: #262833;
+  --on-background: #4E4F59;
+  --on-surface: #FFFFFF;
+  --on-surface-gray: #BFBFBF;
+
+  --font-large: 14px;
+
+  --padding-normal: 14px;
+  --padding-large: 18px;
 }
