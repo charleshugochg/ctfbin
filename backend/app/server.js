@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const { authRouter } = require('./routes/auth')
 const { binRouter } = require('./routes/bin')
 const { documentRouter } = require('./routes/document')
+const { postitRouter } = require('./routes/postit')
 
 const PORT = process.env.PORT || 5000
 
@@ -17,6 +18,7 @@ app.use('/', express.static('./static'))
 app.use('/documents', documentRouter)
 app.use('/auth', authRouter)
 app.use('/bin', binRouter)
+app.use('/postit', postitRouter)
 
 app.use('/delay', async (req, res) => {
   const timeout = req.query.timeout || 0
