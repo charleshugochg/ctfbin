@@ -18,6 +18,12 @@ app.get('/', (req, res) => {
 app.use('/auth', authRouter)
 app.use('/bin', binRouter)
 
+app.use('/delay', async (req, res) => {
+  const timeout = req.query.timeout || 0
+  await new Promise(resolve => setTimeout(resolve, timeout))
+  res.status(404).send('Time\'s up!')
+})
+
 app.listen(PORT, () => {
   console.log(`Server is running at ${PORT}`)
 })
