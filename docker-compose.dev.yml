@@ -5,6 +5,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=5000
+      - MONGODB_CONNECTION_STRING=mongodb://mongodb:27017/main
     ports:
       - 5000:5000
       - 9229:9229
@@ -12,3 +13,9 @@ services:
     volumes:
       - ./backend/app:/app
     command: npm run debug
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./db:/data/db
