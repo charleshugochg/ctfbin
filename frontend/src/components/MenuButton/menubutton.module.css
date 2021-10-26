@@ -21,7 +21,7 @@
   background-color: var(--primary);
 }
 
-.container[data-variant="primary"][data-active] {
+.container[data-variant="primary"][data-active="true"] {
   background-color: var(--on-background);
   color: var(--on-surface);
 }

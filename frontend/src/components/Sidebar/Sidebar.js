@@ -1,7 +1,5 @@
-import { useState } from 'react'
+import { Children, useState } from 'react'
 import MenuButton from '../MenuButton/MenuButton'
-import IconCode from '../../icons/IconCode'
-import IconBin from '../../icons/IconBin'
 import IconChevronLeft from '../../icons/IconChevronLeft'
 import IconChevronRight from '../../icons/IconChevronRight'
 
@@ -10,7 +8,8 @@ import classes from './sidebar.module.css'
 const Sidebar = props => {
   const [collapse, setCollapse] = useState(false)
   const menuButtonState = collapse ? "collapse" : ""
-  const collapseButtonIcon = collapse ? <IconChevronRight /> : <IconChevronLeft />
+  const collapseButtonIcon = collapse ? IconChevronRight : IconChevronLeft
+  const items = Children.toArray(props.children).filter(c => c.type.name === 'Item')
 
   const handleToggle = () => {
     setCollapse(!collapse)
@@ -18,17 +17,19 @@ const Sidebar = props => {
 
   return (
     <div className={classes.container}>
-      <MenuButton 
-        label={"Documents"} 
-        iconcomponent={<IconCode />} 
-        data-state={menuButtonState} 
-        data-variant="primary"
-        data-active/>
-      <MenuButton 
-        label={"Bin"} 
-        iconcomponent={<IconBin />} 
-        data-state={menuButtonState} 
-        data-variant="primary"/>
+      {items && items.map(item => {
+        const {name, iconcomponent, onClick} = item.props
+        return (
+          <MenuButton 
+            key={name}
+            label={name} 
+            onClick={onClick}
+            iconcomponent={iconcomponent} 
+            data-state={menuButtonState} 
+            data-active={item.props['data-active']}
+            data-variant="primary"/>
+        )
+      })}
       <MenuButton
         onClick={handleToggle}
         style={{
@@ -42,5 +43,9 @@ const Sidebar = props => {
     </div>
   )
 }
+
+const Item = () => {}
+
+Sidebar.Item = Item
 
 export default Sidebar
