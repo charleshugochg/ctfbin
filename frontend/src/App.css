@@ -12,3 +12,10 @@
   --padding-normal: 14px;
   --padding-large: 18px;
 }
+
+.App {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

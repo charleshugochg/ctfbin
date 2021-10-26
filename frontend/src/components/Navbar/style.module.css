@@ -1,5 +1,4 @@
 .container {
-  width: 100vw;
   padding: var(--padding-normal);
   background-color: var(--background);
 }
