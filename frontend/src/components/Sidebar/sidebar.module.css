@@ -1,0 +1,8 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-small);
+  background-color: var(--background-gray);
+  border-right: 2px solid var(--on-background);
+  transition: all .3s;
+}

@@ -9,8 +9,9 @@
 
   --font-large: 14px;
 
-  --padding-normal: 14px;
-  --padding-large: 18px;
+  --spacing-small: 8px;
+  --spacing-normal: 14px;
+  --spacing-large: 18px;
 }
 
 .App {
