@@ -1,0 +1,14 @@
+.container {
+  padding: var(--spacing-large);
+  color: var(--on-surface-gray);
+  cursor: pointer;
+}
+
+.container:hover {
+  color: var(--on-surface);
+}
+
+.container[data-disabled] {
+  color: var(--on-background);
+  cursor: default;
+}
