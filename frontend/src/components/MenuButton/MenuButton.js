@@ -9,7 +9,7 @@ const MenuButton = props => {
   return (
     <div className={classes.wrapper} style={style}>
       <div className={classes.container} {...containerProps}>
-        <props.iconcomponent />
+        {iconcomponent && <props.iconcomponent />}
         <div className={classes['label-container']}>
           <span className={classes.label}>{props.label}</span>
         </div>

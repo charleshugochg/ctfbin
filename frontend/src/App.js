@@ -3,7 +3,7 @@ import Main from './components/Main/Main'
 import Sidebar from './components/Sidebar/Sidebar'
 import Actionbar from './components/Actionbar/Actionbar';
 import Navigator from './components/Navigator/Navigator';
-import FlexGrow from './components/FlexGrow/FlexGrow';
+import FlexFill from './components/FlexFill/FlexFill';
 
 import IconCode from './icons/IconCode';
 import IconBin from './icons/IconBin'
@@ -24,7 +24,7 @@ function App() {
       <Navbar />
       <Main>
         <Navigator 
-          screenContainer={FlexGrow}
+          screenContainer={FlexFill}
           prepend={(screens, activeScreenName, handleChange) => {
             return (
               <Sidebar>

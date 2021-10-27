@@ -12,6 +12,8 @@
   --spacing-small: 8px;
   --spacing-normal: 14px;
   --spacing-large: 18px;
+
+  --menu-width: 140px;
 }
 
 .App {

@@ -28,7 +28,7 @@
 
 .label-container {
   display: inline-block;
-  width: 120px;
+  width: var(--menu-width);
   transition: all .3s;
 }
 
