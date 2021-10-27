@@ -5,16 +5,14 @@ import Actionbar from './components/Actionbar/Actionbar';
 import Navigator from './components/Navigator/Navigator';
 import FlexFill from './components/FlexFill/FlexFill';
 
+import ScreenDocuments from './screens/ScreenDocuments/ScreenDocuments';
+
 import IconCode from './icons/IconCode';
 import IconBin from './icons/IconBin'
 
 import './App.css';
 
-const DocumentsScreen = () =>{
-  return <div>Documents</div>
-}
-
-const BinScreen = () =>{
+const ScreenBin = () =>{
   return <div>Bin</div>
 }
 
@@ -25,7 +23,7 @@ function App() {
       <Main>
         <Navigator 
           screenContainer={FlexFill}
-          prepend={(screens, activeScreenName, handleChange) => {
+          prepend={(screens, activeScreenName, setState) => {
             return (
               <Sidebar>
                 {screens && screens.map(screen => {
@@ -35,19 +33,19 @@ function App() {
                     name={name} 
                     iconcomponent={iconcomponent} 
                     data-active={screen.props.name === activeScreenName}
-                    onClick={() => handleChange(name)}/>
+                    onClick={() => setState(name)}/>
                 })}
               </Sidebar>
             )
         }}>
           <Navigator.Screen 
             name="Documents" 
-            component={DocumentsScreen} 
+            component={ScreenDocuments} 
             iconcomponent={IconCode}
             data-default/>
           <Navigator.Screen 
             name="Bin" 
-            component={BinScreen} 
+            component={ScreenBin} 
             iconcomponent={IconBin}/>
         </Navigator>
         <Actionbar />

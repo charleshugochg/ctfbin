@@ -1,0 +1,4 @@
+.container {
+  background-color: var(--background-gray);
+  border-right: 2px solid var(--on-background);
+}

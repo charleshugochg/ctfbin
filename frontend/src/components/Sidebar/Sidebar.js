@@ -1,4 +1,5 @@
 import { Children, useState } from 'react'
+import SurfaceContainer from '../SurfaceContainer/SurfaceContainer'
 import MenuButton from '../MenuButton/MenuButton'
 import IconChevronLeft from '../../icons/IconChevronLeft'
 import IconChevronRight from '../../icons/IconChevronRight'
@@ -16,7 +17,7 @@ const Sidebar = props => {
   }
 
   return (
-    <div className={classes.container}>
+    <SurfaceContainer className={classes.container}>
       {items && items.map(item => {
         const {name, iconcomponent, onClick} = item.props
         return (
@@ -40,7 +41,7 @@ const Sidebar = props => {
         iconcomponent={collapseButtonIcon} 
         data-state={menuButtonState} 
         data-variant="secondary"/>
-    </div>
+    </SurfaceContainer>
   )
 }
 

@@ -7,13 +7,17 @@
   --on-surface: #FFFFFF;
   --on-surface-gray: #BFBFBF;
 
+  --font-small: 9px;
+  --font-normal: 12px;
   --font-large: 14px;
 
+  --spacing-tiny: 4px;
   --spacing-small: 8px;
   --spacing-normal: 14px;
   --spacing-large: 18px;
 
   --menu-width: 140px;
+  --directory-width: 200px;
 }
 
 .App {
