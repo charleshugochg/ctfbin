@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 
 const { authRouter } = require('./routes/auth')
 const { binRouter } = require('./routes/bin')
@@ -12,6 +13,10 @@ const PORT = process.env.PORT || 5000
 const app = express()
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
+app.use(cors({
+  origin: 'http://localhost:3000',
+  optonsSuccessStatus: 200
+}))
 
 app.use('/', express.static('./static'))
 
