@@ -4,14 +4,12 @@ import classes from './directory.module.css'
 import SurfaceContainer from '../SurfaceContainer/SurfaceContainer'
 
 const Directory = props => {
-  const [active, setActive] = useState(1)
-  const fileNames = ['index.html', 'server.js', 'README.md']
-  const numOfFiles = fileNames.length
+  const { active, fileNames, onSelect } = props
+  const numOfFiles = fileNames && fileNames.length
 
   const handleClick = (index) => {
-    setActive(index)
-    if (props.onChange) {
-      props.onChange(index)
+    if (onSelect) {
+      onSelect(index)
     }
   }
 
@@ -23,7 +21,9 @@ const Directory = props => {
       </div>
       {fileNames && fileNames.map((name, index) => {
         return (
-          <div onClick={() => handleClick(index)} className={classes.file} data-active={index==active}>{name}</div>
+          <div key={name} onClick={() => handleClick(index)} className={classes.file} data-active={index===active}>
+            {name}
+          </div>
         )
       })}
     </SurfaceContainer>

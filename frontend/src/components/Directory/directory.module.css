@@ -24,6 +24,7 @@
   padding-top: var(--spacing-tiny);
   padding-bottom: var(--spacing-tiny);
   cursor: pointer;
+  text-overflow: ellipsis;
 }
 
 .file[data-active="true"] {
