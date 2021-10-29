@@ -1,70 +1,62 @@
-import { useEffect, useState, useCallback, useRef } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { getDocuments, getDocument, postDocument } from '../api/documents'
 
 export const useDocuments = () => {
   const [documents, setDocuments] = useState([])
-  const [currentIndex, setCurrentIndex] = useState(null)
-  const [dirty, setDirty] = useState(false)
-  const [text, setText] = useState('')
-  const [loading, setLoading] = useState(false)
-  const textOrig = useRef('')
 
-  const loadDocument = useCallback(async (index) => {
-    try {
-      const fileName = documents[index]
-      const res = await getDocument(fileName)
-      setText(res)
-      textOrig.current = res
-    } catch (err) {
-      console.error(err)
-      //TODO: handle error
-    } finally {
-      setLoading(false)
-    }
+  const loadText = useCallback(async doc => {
+    const data = await getDocument(doc.name)
+    const newDocuments = documents.map(d => d === doc ? ({
+      ...doc,
+      remoteText: data,
+      text: data
+    }) : d)
+    setDocuments(newDocuments)
   }, [documents])
 
-  const fetchDocuments = async () => {
-    try {
-      const res = await getDocuments()
-      setDocuments(res)
-    } catch (err) {
-      console.error(err)
-    }
+  const getText = doc => {
+    if (doc.remoteText === null)
+      loadText(doc)
+    return doc.text
   }
 
-  const saveDocument = async () => {
-    if (dirty) {
-      try {
-        const fileName = documents[currentIndex]
-        await postDocument(fileName, text)
-      } catch (err) {
-        console.error(err)
-        //TODO: handle error
-      }
-    }
-  }
+  const setText = useCallback(async (doc, text) => {
+    const newDocuments = documents.map(d => d === doc ? ({
+      ...doc,
+      dirty: d.remoteText !== text,
+      text
+    }) : d)
+    setDocuments(newDocuments)
+  }, [documents])
 
-  const changeDocument = (index) => {
-    setCurrentIndex(index)
-    loadDocument(index)
-  }
-
-  useEffect(() => {
-    fetchDocuments()
+  const save = useCallback(async doc => {
+    await postDocument(doc.name, doc.text)
   }, [])
 
-  useEffect(() => {
-    setDirty(textOrig.current !== text)
-  }, [text])
-
-  return {
-    documents,
-    currentIndex,
-    text,
-    loading,
-    dirty,
-    setText,
-    changeDocument,
-    saveDocument,
+  const initDocuments = async () => {
+    const res = await getDocuments()
+    const newDocuments = res.map(name => ({
+      name,
+      dirty: false,
+      text: null,
+      remoteText: null
+    }))
+    setDocuments(newDocuments)
   }
+
+  useEffect(() => {
+    initDocuments()
+  }, [])
+
+  return documents.map(({ name, dirty, text })=> {
+    const doc = documents.find(d => d.name === name)
+    return {
+      name,
+      dirty,
+      text,
+      getText: () => getText(doc),
+      setText: (text) => setText(doc, text),
+      save: () => save(doc)
+    }
+  })
 }

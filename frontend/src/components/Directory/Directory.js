@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import classes from './directory.module.css'
 
 import SurfaceContainer from '../SurfaceContainer/SurfaceContainer'

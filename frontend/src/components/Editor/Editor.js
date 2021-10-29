@@ -1,5 +1,4 @@
 import AceEditor from 'react-ace'
-import classes from './editor.module.css'
 
 import "ace-builds/webpack-resolver"
 import "ace-builds/src-noconflict/theme-dracula"
@@ -12,8 +11,8 @@ const Editor = props => {
   const mode = name && modelist.getModeForPath(name)
 
   return (
-    <div className={classes.container}>
-      {name ?
+    <>
+      { name &&
         <AceEditor
           value={text}
           onChange={onChange}
@@ -28,10 +27,9 @@ const Editor = props => {
           }}
           width="100%"
           height="100%"
-        /> :
-        <h2 className={classes.placeholder}>Open a file to edit</h2>
+        /> 
       }
-  </div>
+    </>
   )
 }
 
