@@ -6,6 +6,9 @@ const router = express.Router()
 
 const PATH = path.join(__dirname, '../documents/')
 
+const { patch, md5hash } = require('../utils')
+const { safeFilename } = require('../middlewares')
+
 const { requireAuth } = require('./auth')
 router.use(fileUpload({
   safeFileNames: /[^A-Za-z0-9.]/g
@@ -35,11 +38,27 @@ router.post('/', requireAuth, async (req, res) => {
   })
 })
 
-router.delete('/:filename', requireAuth, async (req, res) => {
+router.patch('/:filename', requireAuth, safeFilename, async (req, res) => {
   const filename = req.params.filename
-  if (!/^[A-Za-z0-9.]+$/.test(filename)) {
-    return res.status(404).send('Invalid character.')
-  }
+  const filePath = path.join(PATH, filename)
+  if (!fs.existsSync(filePath))
+    return res.status(400).send('File not found.')
+  const { hash, patchText } = req.body
+  const contentBuf = fs.readFileSync(filePath)
+  const text = contentBuf.toString()
+  if (hash !== md5hash(text))
+    return res.status(400).send('Please update the content.')
+  const updatedText = patch(text, patchText)
+  const updatedHash = md5hash(updatedText)
+  fs.writeFile(filePath, updatedText, (err) => {
+    if (err)
+      return res.status(500).send('Sorry about that.')
+    return res.json({hash: updatedHash})
+  })
+})
+
+router.delete('/:filename', requireAuth, safeFilename, async (req, res) => {
+  const filename = req.params.filename
   const filePath = path.join(PATH, filename)
   try {
     fs.unlinkSync(filePath)
