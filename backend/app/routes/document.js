@@ -24,6 +24,8 @@ router.post('/', requireAuth, async (req, res) => {
   }
   const file = req.files.file
   const uploadPath = path.join(PATH, file.name)
+  if (fs.existsSync(uploadPath))
+    return res.status(400).send('File already exists.')
   file.mv(uploadPath, (err) => {
     if (err) {
       console.error(err)
