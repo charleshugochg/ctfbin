@@ -13,6 +13,7 @@ const ScreenDocuments = props => {
     documents 
   }, dispatch] = useContext(DocumentContext)
   const filenames = documents.map(({ name }) => name)
+  const currentDocument = documents[currentIndex]
 
   const handleSelect = (index) => {
     dispatch({
@@ -32,14 +33,13 @@ const ScreenDocuments = props => {
   }
 
   useEffect(() => {
-    if (currentIndex && !documents[currentIndex].remoteText)
+    if (currentDocument && !currentDocument.remoteText)
       dispatch({
         type: FETCH_DOCUMENT,
         payload: currentIndex
       })
-  }, [currentIndex, documents, dispatch])
+  }, [currentDocument, currentIndex, documents, dispatch])
 
-  const currentDocument = documents[currentIndex]
 
   return (
     <div className={classes.container}>
