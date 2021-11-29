@@ -8,7 +8,7 @@
   color: var(--on-surface);
 }
 
-.container[data-disabled] {
+.container[data-disabled="true"] {
   color: var(--on-background);
   cursor: default;
 }

@@ -36,6 +36,7 @@ const reducer = (state, action) => {
         return state
       const documents = state.documents.map((d, i) => i !== index ? d : {
         ...d,
+        dirty: true,
         text
       })
       return reducer(state, {
