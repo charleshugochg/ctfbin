@@ -1,15 +1,19 @@
-import classes from './notification.module.css'
+import { useContext } from 'react'
 
 import IconBotton from '../IconButton/IconButton'
 import IconX from '../../icons/IconX'
 
+import NotificationContext from '../../contexts/NotificationContext'
+
+import classes from './notification.module.css'
+
 const Notification = props => {
-  const text = 'notification.'
+  const {state, hide} = useContext(NotificationContext)
   return (
     <div className={classes.container}>
-      <div className={classes.wrapper} data-disabled="true">
-        <span>{text}</span>
-        <IconBotton className={classes['btn-close']} iconcomponent={<IconX variant="outline"/>} />
+      <div className={classes.wrapper} data-disabled={state.hidden}>
+        <span>{state.text}</span>
+        <IconBotton onClick={hide} className={classes['btn-close']} iconcomponent={<IconX variant="outline"/>} />
       </div>
     </div>
   )

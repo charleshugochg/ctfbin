@@ -8,7 +8,7 @@ export const useAsyncReducer = (reducer, ...args) => {
   const asyncDispatch = useCallback(async action => {
     const result = await reducer(state, action)
     dispatch(result)
-  }, [state, dispatch])
+  }, [state, dispatch, reducer])
 
   return [state, asyncDispatch]
 }

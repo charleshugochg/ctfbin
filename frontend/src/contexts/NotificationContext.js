@@ -1,14 +1,19 @@
 import { createContext, useCallback, useEffect, useReducer } from "react";
 
 const initialState = {
-  text,
-  hidden
+  text: 'test',
+  hidden: false
 }
 
-const defaults = [
-  initialState,
-  () => {}
-]
+const defaults = {
+  state: initialState,
+  notify: () => {},
+  hide: () => {}
+}
+
+const TIMEOUT_INTERVAL = 3000
+const SHOW_TEXT = 'SHOW_TEXT'
+const HIDE_TEXT = 'HIDE_TEXT'
 
 let timeout
 
@@ -31,6 +36,9 @@ const reducer = (state, action) => {
         hidden: true
       }
     }
+
+    default:
+      return state
   }
 }
 
@@ -47,7 +55,13 @@ export const NotificationProvider = ({ children }) => {
         type: HIDE_TEXT
       })
     }, TIMEOUT_INTERVAL)
-  }, [state, dispatch])
+  }, [dispatch])
+
+  const hide = useCallback(() => {
+    dispatch({
+      type: HIDE_TEXT
+    })
+  }, [dispatch])
 
   useEffect(() => {
     return () => {
@@ -56,7 +70,7 @@ export const NotificationProvider = ({ children }) => {
     }
   }, [])
 
-  return <context.Provider value={{state, notify}}>{children}</context.Provider>
+  return <context.Provider value={{state, notify, hide}}>{children}</context.Provider>
 }
 
 export default context
