@@ -1,8 +1,9 @@
 import { createContext, useCallback, useEffect, useReducer } from "react";
 
 const initialState = {
-  text: 'test',
-  hidden: false
+  text: 'something went wrong.',
+  hidden: false,
+  warmed: true
 }
 
 const defaults = {
@@ -22,10 +23,11 @@ const context = createContext(defaults)
 const reducer = (state, action) => {
   switch(action.type) {
     case SHOW_TEXT: {
-      const text = action.payload
+      const {text, warmed}= action.payload
       return {
         ...state,
         text,
+        warmed,
         hidden: false
       }
     }

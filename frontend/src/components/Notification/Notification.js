@@ -11,7 +11,7 @@ const Notification = props => {
   const {state, hide} = useContext(NotificationContext)
   return (
     <div className={classes.container}>
-      <div className={classes.wrapper} data-disabled={state.hidden}>
+      <div className={classes.wrapper} data-disabled={state.hidden} data-warmed={state.warmed}>
         <span>{state.text}</span>
         <IconBotton onClick={hide} className={classes['btn-close']} iconcomponent={<IconX variant="outline"/>} />
       </div>
