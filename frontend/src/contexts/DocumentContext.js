@@ -63,6 +63,7 @@ const reducer = async (state, action) => {
       const remoteText = await getDocument(document.name)
       const documents = state.documents.map((d, i) => i !== index ? d : {
         ...d,
+        dirty: false,
         remoteText,
         text: remoteText
       })
@@ -80,7 +81,20 @@ const reducer = async (state, action) => {
       const hash = md5hash(document.remoteText)
       const patchText = diffPatchText(document.remoteText, document.text)
       const result = await patchDocument(document.name, hash, patchText)
-      console.log(result, md5hash(document.text))
+      if (result.hash !== md5hash(document.text))
+        return await reducer(state, {
+          type: FETCH_DOCUMENT,
+          payload: index
+        })
+      const documents = state.documents.map((d, i) => i !== index ? d : {
+        ...d,
+        remoteText: d.text,
+        dirty: false
+      })
+      return await reducer(state, {
+        type: SET_DOCUMENTS,
+        payload: documents
+      })
     }
 
     default: {
