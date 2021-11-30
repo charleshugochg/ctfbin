@@ -1,11 +1,11 @@
 .container {
-  padding: var(--spacing-normal);
+  display: flex;
   background-color: var(--background);
 }
 
 .container > h2 {
   margin: 0;
-  padding: 0;
+  padding: var(--spacing-normal);
   font-family: 'Roboto Mono', monospace;
   font-size: var(--font-large);
   font-weight: 700;

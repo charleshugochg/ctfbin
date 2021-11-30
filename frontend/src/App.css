@@ -1,6 +1,7 @@
 :root {
   --primary: #3D4BCC;
   --primary-variant: #4150D9;
+  --error: #FF1A1A;
   --background: #15161C;
   --background-gray: #262833;
   --on-background: #4E4F59;
@@ -15,6 +16,8 @@
   --spacing-small: 8px;
   --spacing-normal: 14px;
   --spacing-large: 18px;
+
+  --border-radius: 10px;
 
   --menu-width: 140px;
   --directory-width: 200px;
