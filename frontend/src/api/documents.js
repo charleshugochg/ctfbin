@@ -35,9 +35,10 @@ export const patchDocument = async (filename, hash, patchText) => {
   formData.append('patchText', patchText)
   const config = {
     headers: {
-      'content-type': 'multipart/form-data'
-    }
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    withCredentials: true
   }
-  const res = await axios.post(url, formData, config)
+  const res = await axios.patch(url, formData, config)
   return res.data
 }

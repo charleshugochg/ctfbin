@@ -1,5 +1,6 @@
-import { createContext, useEffect, useReducer, useCallback } from 'react'
-import { getDocuments, getDocument } from '../api/documents'
+import { createContext, useEffect } from 'react'
+import { getDocuments, getDocument, patchDocument } from '../api/documents'
+import { md5hash, diffPatchText } from '../utils'
 import useAsyncReducer from '../hooks/AsyncReducer'
 
 export const SET_DOCUMENTS = 'SET_DOCUMENTS'
@@ -69,6 +70,17 @@ const reducer = async (state, action) => {
         type: SET_DOCUMENTS,
         payload: documents
       })
+    }
+
+    case SAVE_DOCUMENT: {
+      const index = action.payload
+      const document = state.documents.length > index && state.documents[index]
+      if (!document || document.remoteText === document.text)
+        return state
+      const hash = md5hash(document.remoteText)
+      const patchText = diffPatchText(document.remoteText, document.text)
+      const result = await patchDocument(document.name, hash, patchText)
+      console.log(result, md5hash(document.text))
     }
 
     default: {
