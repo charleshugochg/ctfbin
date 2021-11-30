@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(cookieParser())
 
-if (process.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development') {
   const cors = require('cors')
   app.use(cors({
     credentials: true,
