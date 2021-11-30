@@ -1,7 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
-const cors = require('cors')
 
 const { authRouter } = require('./routes/auth')
 const { binRouter } = require('./routes/bin')
@@ -14,10 +13,15 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors({
-  origin: 'http://localhost:3000',
-  optonsSuccessStatus: 200
-}))
+
+if (process.NODE_ENV === 'development') {
+  const cors = require('cors')
+  app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:3000',
+    optonsSuccessStatus: 200
+  }))
+}
 
 app.use('/', express.static('./static'))
 

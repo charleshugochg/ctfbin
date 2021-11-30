@@ -38,7 +38,7 @@ router.post('/', requireAuth, async (req, res) => {
   })
 })
 
-router.patch('/:filename', requireAuth, safeFilename, async (req, res) => {
+router.post('/:filename', requireAuth, safeFilename, async (req, res) => {
   const filename = req.params.filename
   const filePath = path.join(PATH, filename)
   if (!fs.existsSync(filePath))

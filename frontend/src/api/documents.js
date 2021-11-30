@@ -39,6 +39,6 @@ export const patchDocument = async (filename, hash, patchText) => {
     },
     withCredentials: true
   }
-  const res = await axios.patch(url, formData, config)
+  const res = await axios.post(url, formData, config)
   return res.data
 }
