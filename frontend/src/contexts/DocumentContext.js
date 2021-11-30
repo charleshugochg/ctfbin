@@ -1,5 +1,6 @@
 import { createContext, useEffect, useReducer, useCallback } from 'react'
 import { getDocuments, getDocument } from '../api/documents'
+import useAsyncReducer from '../hooks/AsyncReducer'
 
 export const SET_DOCUMENTS = 'SET_DOCUMENTS'
 export const SET_INDEX = 'SET_INDEX'
@@ -19,7 +20,7 @@ const defaults = [
 
 const context = createContext(defaults)
 
-const reducer = (state, action) => {
+const reducer = async (state, action) => {
   switch (action.type) {
 
     case SET_DOCUMENTS: {
@@ -39,7 +40,7 @@ const reducer = (state, action) => {
         dirty: true,
         text
       })
-      return reducer(state, {
+      return await reducer(state, {
         type: SET_DOCUMENTS,
         payload: documents
       })
@@ -51,6 +52,23 @@ const reducer = (state, action) => {
         ...state,
         currentIndex: index
       }
+    }
+
+    case FETCH_DOCUMENT: {
+      const index = action.payload
+      const document = state.documents.length > index && state.documents[index]
+      if (!document || document.remoteText !== null)
+        return state
+      const remoteText = await getDocument(document.name)
+      const documents = state.documents.map((d, i) => i !== index ? d : {
+        ...d,
+        remoteText,
+        text: remoteText
+      })
+      return await reducer(state, {
+        type: SET_DOCUMENTS,
+        payload: documents
+      })
     }
 
     default: {
@@ -71,30 +89,7 @@ const fetchEmptyDocuments = async () => {
 }
 
 export const DocumentProvider = ({children}) => {
-  const [state, dispatch] = useReducer(reducer, initialState)
-
-  const asyncDispatch = useCallback(async function (action) {
-    switch (action.type) {
-      case FETCH_DOCUMENT: {
-        const index = action.payload
-        const document = state.documents.length > index && state.documents[index]
-        if (!document || document.remoteText !== null)
-          return state
-        const remoteText = await getDocument(document.name)
-        const documents = state.documents.map((d, i) => i !== index ? d : {
-          ...d,
-          remoteText,
-          text: remoteText
-        })
-        return dispatch({
-          type: SET_DOCUMENTS,
-          payload: documents
-        })
-      }
-      default:
-        return dispatch(action)
-    }
-  }, [state, dispatch])
+  const [state, dispatch] = useAsyncReducer(reducer, initialState)
 
   useEffect(() => {
     (async function () {
@@ -106,7 +101,7 @@ export const DocumentProvider = ({children}) => {
     })()
   }, [])
 
-  return <context.Provider value={[state, asyncDispatch]}>{children}</context.Provider>
+  return <context.Provider value={[state, dispatch]}>{children}</context.Provider>
 }
 
 export default context
