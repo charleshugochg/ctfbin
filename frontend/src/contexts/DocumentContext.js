@@ -75,11 +75,6 @@ export const DocumentProvider = ({children}) => {
 
   const asyncDispatch = useCallback(async function (action) {
     switch (action.type) {
-      case SET_DOCUMENTS:
-      case SET_TEXT:
-      case SET_INDEX:
-      default:
-        return dispatch(action)
       case FETCH_DOCUMENT: {
         const index = action.payload
         const document = state.documents.length > index && state.documents[index]
@@ -96,6 +91,8 @@ export const DocumentProvider = ({children}) => {
           payload: documents
         })
       }
+      default:
+        return dispatch(action)
     }
   }, [state, dispatch])
 

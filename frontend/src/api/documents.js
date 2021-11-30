@@ -27,3 +27,17 @@ export const postDocument = async (fileName, text) => {
   const res = await axios.post(endpoint, formData, config)
   return res.data
 }
+
+export const patchDocument = async (filename, hash, patchText) => {
+  const url = `${endpoint}/${filename}`
+  const formData = new FormData()
+  formData.append('hash', hash)
+  formData.append('patchText', patchText)
+  const config = {
+    headers: {
+      'content-type': 'multipart/form-data'
+    }
+  }
+  const res = await axios.post(url, formData, config)
+  return res.data
+}
