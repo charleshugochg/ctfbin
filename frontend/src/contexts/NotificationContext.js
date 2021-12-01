@@ -52,6 +52,8 @@ export const NotificationProvider = ({ children }) => {
       type: SHOW_TEXT,
       payload: text
     })
+    if (timeout)
+      clearTimeout(timeout)
     timeout = setTimeout(() => {
       dispatch({
         type: HIDE_TEXT
