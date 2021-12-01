@@ -125,7 +125,7 @@ export const DocumentProvider = ({children}) => {
         payload: newDocuments
       })
     })()
-  }, [dispatch])
+  }, [])
 
   return <context.Provider value={[state, dispatch]}>{children}</context.Provider>
 }
