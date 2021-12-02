@@ -8,7 +8,7 @@ import NotificationContext from '../../contexts/NotificationContext'
 import classes from './notification.module.css'
 
 const Notification = props => {
-  const {state, hide} = useContext(NotificationContext)
+  const [state, { hide }] = useContext(NotificationContext)
   return (
     <div className={classes.container}>
       <div className={classes.wrapper} data-disabled={state.hidden} data-warmed={state.warmed}>

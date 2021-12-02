@@ -1,4 +1,4 @@
-import { createContext, useEffect, useCallback, useReducer } from 'react'
+import { createContext, useEffect, useCallback, useReducer, useContext } from 'react'
 import { getDocuments, getDocument, patchDocument } from '../api/documents'
 import { md5hash, diffPatchText } from '../utils'
 
@@ -140,5 +140,7 @@ export const DocumentProvider = ({children}) => {
 
   return <context.Provider value={[state, actions]}>{children}</context.Provider>
 }
+
+export const useDocuments = () => useContext(context)
 
 export default context

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useReducer } from "react";
+import { createContext, useCallback, useContext, useEffect, useReducer } from "react";
 
 const initialState = {
   text: 'something went wrong.',
@@ -23,7 +23,7 @@ const context = createContext(defaults)
 const reducer = (state, action) => {
   switch(action.type) {
     case SHOW_TEXT: {
-      const {text, warmed}= action.payload
+      const {text, warmed} = action.payload
       return {
         ...state,
         text,
@@ -44,13 +44,14 @@ const reducer = (state, action) => {
   }
 }
 
-export const NotificationProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState)
-
-  const notify = useCallback(text => {
+const makeActions = (state, dispatch) => ({
+  notify: async function (text, warmed=false) {
     dispatch({
       type: SHOW_TEXT,
-      payload: text
+      payload: {
+        text,
+        warmed
+      }
     })
     if (timeout)
       clearTimeout(timeout)
@@ -59,13 +60,17 @@ export const NotificationProvider = ({ children }) => {
         type: HIDE_TEXT
       })
     }, TIMEOUT_INTERVAL)
-  }, [dispatch])
-
-  const hide = useCallback(() => {
+  },
+  hide: function () {
     dispatch({
       type: HIDE_TEXT
     })
-  }, [dispatch])
+  }
+})
+
+export const NotificationProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const actions = useCallback(makeActions, [state, dispatch])(state, dispatch)
 
   useEffect(() => {
     return () => {
@@ -74,7 +79,9 @@ export const NotificationProvider = ({ children }) => {
     }
   }, [])
 
-  return <context.Provider value={{state, notify, hide}}>{children}</context.Provider>
+  return <context.Provider value={[state, actions]}>{children}</context.Provider>
 }
+
+export const useNotification = () => useContext(context)
 
 export default context
