@@ -4,41 +4,33 @@ import classes from './screendocuments.module.css'
 import Directory from '../../components/Directory/Directory'
 import Editor from '../../components/Editor/Editor'
 
-import DocumentContext, { FETCH_DOCUMENT, SET_INDEX, SET_TEXT } from '../../contexts/DocumentContext'
+import DocumentContext from '../../contexts/DocumentContext'
 import { useEffect } from 'react'
 
 const ScreenDocuments = props => {
   const [{ 
     currentIndex, 
     documents 
-  }, dispatch] = useContext(DocumentContext)
+  }, {
+    setIndex,
+    setText,
+    fetchDocument
+  }] = useContext(DocumentContext)
   const filenames = documents.map(({ name }) => name)
   const currentDocument = documents[currentIndex]
 
   const handleSelect = (index) => {
-    dispatch({
-      type: SET_INDEX,
-      payload: index
-    })
+    setIndex(index)
   }
 
   const handleTextChange = (text) => {
-    dispatch({
-      type: SET_TEXT,
-      payload: {
-        index: currentIndex,
-        text
-      }
-    })
+    setText(currentIndex, text)
   }
 
   useEffect(() => {
     if (currentDocument && !currentDocument.remoteText)
-      dispatch({
-        type: FETCH_DOCUMENT,
-        payload: currentIndex
-      })
-  }, [currentDocument, currentIndex, documents, dispatch])
+      fetchDocument(currentIndex)
+  }, [currentIndex])
 
 
   return (

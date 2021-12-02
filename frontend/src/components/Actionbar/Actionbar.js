@@ -4,20 +4,19 @@ import classes from './actionbar.module.css'
 import IconButton from '../IconButton/IconButton'
 import IconSave from '../../icons/IconSave'
 
-import DocumentContext, { SAVE_DOCUMENT } from '../../contexts/DocumentContext'
+import DocumentContext from '../../contexts/DocumentContext'
 
 const Actionbar = props => {
   const [{
     currentIndex,
     documents
-  }, dispatch] = useContext(DocumentContext)
+  }, {
+    saveDocument
+  }] = useContext(DocumentContext)
   const currentDocument = documents[currentIndex]
 
   const handleSave = () => {
-    dispatch({
-      type: SAVE_DOCUMENT,
-      payload: currentIndex
-    })
+    saveDocument(currentIndex)
   }
 
   return (

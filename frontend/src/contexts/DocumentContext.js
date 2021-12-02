@@ -1,13 +1,10 @@
-import { createContext, useEffect } from 'react'
+import { createContext, useEffect, useCallback, useReducer } from 'react'
 import { getDocuments, getDocument, patchDocument } from '../api/documents'
 import { md5hash, diffPatchText } from '../utils'
-import useAsyncReducer from '../hooks/AsyncReducer'
 
-export const SET_DOCUMENTS = 'SET_DOCUMENTS'
-export const SET_INDEX = 'SET_INDEX'
-export const FETCH_DOCUMENT = 'FETCH_DOCUMENT'
-export const SAVE_DOCUMENT = 'SAVE_DOCUMENT'
-export const SET_TEXT = 'SET_TEXT'
+const SET_DOCUMENTS = 'SET_DOCUMENTS'
+const SET_INDEX = 'SET_INDEX'
+const SET_TEXT = 'SET_TEXT'
 
 const initialState = {
   currentIndex: null,
@@ -21,7 +18,7 @@ const defaults = [
 
 const context = createContext(defaults)
 
-const reducer = async (state, action) => {
+const reducer = (state, action) => {
   switch (action.type) {
 
     case SET_DOCUMENTS: {
@@ -41,7 +38,7 @@ const reducer = async (state, action) => {
         dirty: true,
         text
       })
-      return await reducer(state, {
+      return reducer(state, {
         type: SET_DOCUMENTS,
         payload: documents
       })
@@ -55,53 +52,69 @@ const reducer = async (state, action) => {
       }
     }
 
-    case FETCH_DOCUMENT: {
-      const index = action.payload
-      const document = state.documents.length > index && state.documents[index]
-      if (!document || document.remoteText !== null)
-        return state
-      const remoteText = await getDocument(document.name)
-      const documents = state.documents.map((d, i) => i !== index ? d : {
-        ...d,
-        dirty: false,
-        remoteText,
-        text: remoteText
-      })
-      return await reducer(state, {
-        type: SET_DOCUMENTS,
-        payload: documents
-      })
-    }
-
-    case SAVE_DOCUMENT: {
-      const index = action.payload
-      const document = state.documents.length > index && state.documents[index]
-      if (!document || document.remoteText === document.text)
-        return state
-      const hash = md5hash(document.remoteText)
-      const patchText = diffPatchText(document.remoteText, document.text)
-      const result = await patchDocument(document.name, hash, patchText)
-      if (result.hash !== md5hash(document.text))
-        return await reducer(state, {
-          type: FETCH_DOCUMENT,
-          payload: index
-        })
-      const documents = state.documents.map((d, i) => i !== index ? d : {
-        ...d,
-        remoteText: d.text,
-        dirty: false
-      })
-      return await reducer(state, {
-        type: SET_DOCUMENTS,
-        payload: documents
-      })
-    }
-
     default: {
       return state
     }
   }
 }
+
+const makeActions = (state, dispatch) => ({
+  setDocuments: async function (documents) {
+    dispatch({
+      type: SET_DOCUMENTS,
+      payload: documents
+    })
+  },
+  setText: async function (index, text) {
+    dispatch({
+      type: SET_TEXT,
+      payload: {
+        index, text
+      }
+    })
+  },
+  setIndex: async function (index) {
+    dispatch({
+      type: SET_INDEX,
+      payload: index
+    })
+  },
+  fetchDocument: async function (index) {
+    const document = state.documents.length > index && state.documents[index]
+    if (!document)
+      return
+    const remoteText = await getDocument(document.name)
+    const documents = state.documents.map((d, i) => i !== index ? d : {
+      ...d,
+      dirty: false,
+      remoteText,
+      text: remoteText
+    })
+    dispatch({
+      type: SET_DOCUMENTS,
+      payload: documents
+    })
+  },
+  saveDocument: async function (index) {
+    const document = state.documents.length > index && state.documents[index]
+    if (!document || document.remoteText === document.text)
+      return
+    const hash = md5hash(document.remoteText)
+    const patchText = diffPatchText(document.remoteText, document.text)
+    const result = await patchDocument(document.name, hash, patchText)
+    if (result.hash !== md5hash(document.text))
+      this.fetchDocument(index)
+    const documents = state.documents.map((d, i) => i !== index ? d : {
+      ...d,
+      remoteText: d.text,
+      dirty: false
+    })
+    dispatch({
+      type: SET_DOCUMENTS,
+      payload: documents
+    })
+  }
+})
 
 const fetchEmptyDocuments = async () => {
   const res = await getDocuments()
@@ -115,19 +128,17 @@ const fetchEmptyDocuments = async () => {
 }
 
 export const DocumentProvider = ({children}) => {
-  const [state, dispatch] = useAsyncReducer(reducer, initialState)
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const actions = useCallback(makeActions, [state, dispatch])(state, dispatch)
 
   useEffect(() => {
     (async function () {
       const newDocuments = await fetchEmptyDocuments()
-      dispatch({
-        type: SET_DOCUMENTS,
-        payload: newDocuments
-      })
+      actions.setDocuments(newDocuments)
     })()
   }, [])
 
-  return <context.Provider value={[state, dispatch]}>{children}</context.Provider>
+  return <context.Provider value={[state, actions]}>{children}</context.Provider>
 }
 
 export default context
