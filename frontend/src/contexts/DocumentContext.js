@@ -103,7 +103,7 @@ const makeActions = (state, dispatch) => ({
     const patchText = diffPatchText(document.remoteText, document.text)
     const result = await patchDocument(document.name, hash, patchText)
     if (result.hash !== md5hash(document.text))
-      this.fetchDocument(index)
+      return await this.fetchDocument(index)
     const documents = state.documents.map((d, i) => i !== index ? d : {
       ...d,
       remoteText: d.text,
