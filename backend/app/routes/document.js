@@ -42,7 +42,7 @@ router.post('/:filename', requireAuth, safeFilename, async (req, res) => {
   const filename = req.params.filename
   const filePath = path.join(PATH, filename)
   if (!fs.existsSync(filePath))
-    return res.status(400).send('File not found.')
+    return res.status(404).send('File not found.')
   const { hash, patchText } = req.body
   const contentBuf = fs.readFileSync(filePath)
   const text = contentBuf.toString()
@@ -60,12 +60,14 @@ router.post('/:filename', requireAuth, safeFilename, async (req, res) => {
 router.delete('/:filename', requireAuth, safeFilename, async (req, res) => {
   const filename = req.params.filename
   const filePath = path.join(PATH, filename)
+  if (!fs.existsSync(filePath))
+    return res.status(404).send('File not found.')
   try {
     fs.unlinkSync(filePath)
     res.send('OK')
   } catch (err) {
     console.error(err)
-    res.status(400).send('Something went wrong!')
+    res.status(500).send('Something went wrong!')
   }
 })
 

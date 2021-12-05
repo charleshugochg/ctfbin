@@ -34,19 +34,19 @@ router.post('/login', async (req, res) => {
     res.cookie('AuthToken', authToken, {maxAge: Date.now() + (1000 * 60 * 60 * 24 * 7)})
     res.status(200).send('Success')
   } else {
-    res.status(401).send('Unauthorized')
+    res.status(403).send('Unauthorized')
   }
 })
 
 const requireAuth = (req, res, next) => {
   const authToken = req.cookies['AuthToken']
   if (!authToken) {
-    return res.status(400).send('require AuthToken')
+    return res.status(401).send('require AuthToken')
   }
   jwt.verify(authToken, SECRET_KEY, (err, authenticated) => {
     if (err || !authenticated) {
       res.cookie('AuthToken', '', {maxAge: Date.now() - 1000})
-      return res.status(401).send('Invalid Token!')
+      return res.status(403).send('Invalid Token!')
     }
     next()
   })
