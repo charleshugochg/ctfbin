@@ -16,7 +16,6 @@ const ScreenDocuments = props => {
     setText,
     fetchDocument
   }] = useContext(DocumentContext)
-  const filenames = documents.map(({ name }) => name)
   const currentDocument = documents[currentIndex]
 
   const handleSelect = (index) => {
@@ -35,7 +34,7 @@ const ScreenDocuments = props => {
 
   return (
     <div className={classes.container}>
-      <Directory fileNames={filenames} active={currentIndex} onSelect={handleSelect} />
+      <Directory documents={documents} active={currentIndex} onSelect={handleSelect} />
       <div className={classes['editor-container']}>
         {currentDocument ?
           <Editor name={currentDocument.name} text={currentDocument.text} onChange={handleTextChange} /> :
