@@ -5,18 +5,24 @@ import IconButton from '../IconButton/IconButton'
 import IconSave from '../../icons/IconSave'
 
 import DocumentContext from '../../contexts/DocumentContext'
+import useError from '../../hooks/Error'
 
 const Actionbar = props => {
   const [{
     currentIndex,
     documents
   }, {
-    saveDocument
+    saveDocument,
   }] = useContext(DocumentContext)
+  const setError = useError()
   const currentDocument = documents[currentIndex]
 
-  const handleSave = () => {
-    saveDocument(currentIndex)
+  const handleSave = async () => {
+    try {
+      await saveDocument(currentIndex)
+    } catch (err) {
+      setError(err)
+    }
   }
 
   return (

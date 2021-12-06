@@ -1,9 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useReducer } from "react";
 
 const initialState = {
-  text: 'something went wrong.',
-  hidden: false,
-  warmed: true
+  text: '',
+  hidden: true,
+  warmed: false
 }
 
 const defaults = {

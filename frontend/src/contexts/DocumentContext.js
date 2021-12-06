@@ -1,6 +1,7 @@
 import { createContext, useEffect, useCallback, useReducer, useContext } from 'react'
 import { getDocuments, getDocument, patchDocument } from '../api/documents'
 import { md5hash, diffPatchText } from '../utils'
+import Exception, { CONTENT_OUT_OF_DATE } from '../exceptions'
 
 const SET_DOCUMENTS = 'SET_DOCUMENTS'
 const SET_INDEX = 'SET_INDEX'
@@ -103,7 +104,7 @@ const makeActions = (state, dispatch) => ({
     const patchText = diffPatchText(document.remoteText, document.text)
     const result = await patchDocument(document.name, hash, patchText)
     if (result.hash !== md5hash(document.text))
-      return await this.fetchDocument(index)
+      throw new Exception (CONTENT_OUT_OF_DATE, 'Please update the content.')
     const documents = state.documents.map((d, i) => i !== index ? d : {
       ...d,
       remoteText: d.text,
