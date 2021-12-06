@@ -1,1 +1,7 @@
-db
+# First, ignore everything
+*
+# Now, whitelist directories
+!*/frontend
+!*/backend
+# And, files
+!*.dev.yml
