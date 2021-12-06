@@ -35,7 +35,8 @@ const Sidebar = props => {
         onClick={handleToggle}
         style={{
           marginTop: "auto",
-          marginBottom: 0
+          marginBottom: 0,
+          alignSelf: "center"
         }}
         label={"Collapse Sidebar"} 
         iconcomponent={collapseButtonIcon} 

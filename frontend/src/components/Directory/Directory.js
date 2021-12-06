@@ -1,6 +1,9 @@
 import classes from './directory.module.css'
 
 import SurfaceContainer from '../SurfaceContainer/SurfaceContainer'
+import MenuButton from '../MenuButton/MenuButton'
+
+import IconPlus from '../../icons/IconPlus'
 
 const Directory = props => {
   const { active, documents, onSelect } = props
@@ -34,6 +37,15 @@ const Directory = props => {
           </div>
         )
       })}
+      <MenuButton
+        style={{
+          marginTop: "auto",
+          marginBottom: 0,
+          alignSelf: "center"
+        }}
+        label={"Create New File"} 
+        iconcomponent={IconPlus}
+        data-variant="secondary"/>
     </SurfaceContainer>
   )
 }
