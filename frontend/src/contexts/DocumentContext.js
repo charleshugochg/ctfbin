@@ -98,13 +98,15 @@ const makeActions = (state, dispatch) => ({
   },
   saveDocument: async function (index) {
     const document = state.documents.length > index && state.documents[index]
-    if (!document || document.remoteText === document.text)
+    if (!document)
       return
-    const hash = md5hash(document.remoteText)
-    const patchText = diffPatchText(document.remoteText, document.text)
-    const result = await patchDocument(document.name, hash, patchText)
-    if (result.hash !== md5hash(document.text))
-      throw new Exception (CONTENT_OUT_OF_DATE, 'Please update the content.')
+    if (document.remoteText !== document.text) {
+      const hash = md5hash(document.remoteText)
+      const patchText = diffPatchText(document.remoteText, document.text)
+      const result = await patchDocument(document.name, hash, patchText)
+      if (result.hash !== md5hash(document.text))
+        throw new Exception (CONTENT_OUT_OF_DATE, 'Please update the content.')
+    }
     const documents = state.documents.map((d, i) => i !== index ? d : {
       ...d,
       remoteText: d.text,
