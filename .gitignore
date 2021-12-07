@@ -1,7 +1,8 @@
 # First, ignore everything
-*
+/*
 # Now, whitelist directories
-!*/frontend
-!*/backend
+!frontend/
+!backend/
 # And, files
+!.gitignore
 !*.dev.yml
