@@ -31,7 +31,7 @@ function App() {
                   return <Sidebar.Item 
                     key={name}
                     name={name} 
-                    sidebarState={state}
+                    state={state}
                     iconcomponent={iconcomponent} 
                     data-active={screen.props.name === activeScreenName}
                     onClick={() => setState(name)}/>

@@ -13,7 +13,7 @@ const Sidebar = props => {
   let children = props.children
 
   if (typeof children === 'function')
-    children = children(menuButtonState)
+    children = children(collapse)
 
   const handleToggle = () => {
     setCollapse(!collapse)
@@ -38,14 +38,14 @@ const Sidebar = props => {
 }
 
 const Item = (props) => {
-  const {name, iconcomponent, onClick, sidebarState} = props
+  const {name, iconcomponent, onClick, state} = props
+  const menuButtonState = state ? "collapse" : ""
   return (
     <MenuButton 
-      key={name}
       label={name} 
       onClick={onClick}
       iconcomponent={iconcomponent} 
-      data-state={sidebarState} 
+      data-state={menuButtonState} 
       data-active={props['data-active']}
       data-variant="primary"/>
   )
