@@ -1,4 +1,4 @@
-import { Children, useState } from 'react'
+import { useState } from 'react'
 import SurfaceContainer from '../SurfaceContainer/SurfaceContainer'
 import MenuButton from '../MenuButton/MenuButton'
 import IconChevronLeft from '../../icons/IconChevronLeft'
@@ -10,7 +10,10 @@ const Sidebar = props => {
   const [collapse, setCollapse] = useState(false)
   const menuButtonState = collapse ? "collapse" : ""
   const collapseButtonIcon = collapse ? IconChevronRight : IconChevronLeft
-  const items = Children.toArray(props.children).filter(c => c.type.name === 'Item')
+  let children = props.children
+
+  if (typeof children === 'function')
+    children = children(menuButtonState)
 
   const handleToggle = () => {
     setCollapse(!collapse)
@@ -18,19 +21,7 @@ const Sidebar = props => {
 
   return (
     <SurfaceContainer className={classes.container}>
-      {items && items.map(item => {
-        const {name, iconcomponent, onClick} = item.props
-        return (
-          <MenuButton 
-            key={name}
-            label={name} 
-            onClick={onClick}
-            iconcomponent={iconcomponent} 
-            data-state={menuButtonState} 
-            data-active={item.props['data-active']}
-            data-variant="primary"/>
-        )
-      })}
+      {children}
       <MenuButton
         onClick={handleToggle}
         style={{
@@ -46,7 +37,19 @@ const Sidebar = props => {
   )
 }
 
-const Item = () => {}
+const Item = (props) => {
+  const {name, iconcomponent, onClick, sidebarState} = props
+  return (
+    <MenuButton 
+      key={name}
+      label={name} 
+      onClick={onClick}
+      iconcomponent={iconcomponent} 
+      data-state={sidebarState} 
+      data-active={props['data-active']}
+      data-variant="primary"/>
+  )
+}
 
 Sidebar.Item = Item
 

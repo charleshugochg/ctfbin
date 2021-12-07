@@ -26,11 +26,12 @@ function App() {
           prepend={(screens, activeScreenName, setState) => {
             return (
               <Sidebar>
-                {screens && screens.map(screen => {
+                {(state) => screens && screens.map(screen => {
                   const {name, iconcomponent} = screen.props
                   return <Sidebar.Item 
                     key={name}
                     name={name} 
+                    sidebarState={state}
                     iconcomponent={iconcomponent} 
                     data-active={screen.props.name === activeScreenName}
                     onClick={() => setState(name)}/>
