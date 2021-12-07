@@ -2,7 +2,8 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Outlet
+  Outlet,
+  Navigate
 } from 'react-router-dom'
 import LinkMatch from './components/LinkMatch/LinkMatch';
 import Navbar from './components/Navbar/Navbar';
@@ -28,7 +29,7 @@ function Layout () {
       <Sidebar>
         {state => (
           <>
-            <LinkMatch to="/">
+            <LinkMatch to="/edit">
               {match => (
                 <Sidebar.Item 
                   name="Documents"
@@ -64,7 +65,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<ScreenDocuments />} />
+            <Route index element={<Navigate to="/edit" />} />
+            <Route path="edit" element={<ScreenDocuments />} />
             <Route path="bin" element={<ScreenBin />} />
           </Route>
         </Routes>
