@@ -7,7 +7,7 @@ import IconChevronRight from '../../icons/IconChevronRight'
 import classes from './sidebar.module.css'
 
 const Sidebar = props => {
-  const [collapse, setCollapse] = useState(false)
+  const [collapse, setCollapse] = useState(true)
   const menuButtonState = collapse ? "collapse" : ""
   const collapseButtonIcon = collapse ? IconChevronRight : IconChevronLeft
   let children = props.children

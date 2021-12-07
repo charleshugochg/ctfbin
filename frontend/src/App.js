@@ -1,8 +1,14 @@
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Outlet
+} from 'react-router-dom'
+import LinkMatch from './components/LinkMatch/LinkMatch';
 import Navbar from './components/Navbar/Navbar';
 import Main from './components/Main/Main'
 import Sidebar from './components/Sidebar/Sidebar'
 import Actionbar from './components/Actionbar/Actionbar';
-import Navigator from './components/Navigator/Navigator';
 import FlexFill from './components/FlexFill/FlexFill';
 
 import ScreenDocuments from './screens/ScreenDocuments/ScreenDocuments';
@@ -16,41 +22,53 @@ const ScreenBin = () =>{
   return <div>Bin</div>
 }
 
+function Layout () {
+  return (
+    <Main>
+      <Sidebar>
+        {state => (
+          <>
+            <LinkMatch to="/">
+              {match => (
+                <Sidebar.Item 
+                  name="Documents"
+                  iconcomponent={IconCode}
+                  data-active={!!match}
+                  state={state}/>
+              )}
+            </LinkMatch>
+            <LinkMatch to="/bin">
+              {match => (
+                <Sidebar.Item 
+                  name="Bin"
+                  iconcomponent={IconBin}
+                  data-active={!!match}
+                  state={state}/>
+              )}
+            </LinkMatch>
+          </>
+        )}
+      </Sidebar>
+      <FlexFill>
+        <Outlet />
+      </FlexFill>
+      <Actionbar />
+    </Main>
+  )
+}
+
 function App() {
   return (
     <div className="App">
       <Navbar />
-      <Main>
-        <Navigator 
-          screenContainer={FlexFill}
-          prepend={(screens, activeScreenName, setState) => {
-            return (
-              <Sidebar>
-                {(state) => screens && screens.map(screen => {
-                  const {name, iconcomponent} = screen.props
-                  return <Sidebar.Item 
-                    key={name}
-                    name={name} 
-                    state={state}
-                    iconcomponent={iconcomponent} 
-                    data-active={screen.props.name === activeScreenName}
-                    onClick={() => setState(name)}/>
-                })}
-              </Sidebar>
-            )
-        }}>
-          <Navigator.Screen 
-            name="Documents" 
-            component={ScreenDocuments} 
-            iconcomponent={IconCode}
-            data-default/>
-          <Navigator.Screen 
-            name="Bin" 
-            component={ScreenBin} 
-            iconcomponent={IconBin}/>
-        </Navigator>
-        <Actionbar />
-      </Main>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<ScreenDocuments />} />
+            <Route path="bin" element={<ScreenBin />} />
+          </Route>
+        </Routes>
+      </Router>
     </div>
   );
 }
