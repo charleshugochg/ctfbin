@@ -66,8 +66,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Navigate to="/edit" />} />
-            <Route path="edit" element={<ScreenDocuments />} />
-            <Route path="bin" element={<ScreenBin />} />
+            <Route path="/edit" element={<ScreenDocuments />} />
+            <Route path="/bin" element={<ScreenBin />} />
+            <Route path="*" element={<Navigate to="/edit" />} />
           </Route>
         </Routes>
       </Router>
