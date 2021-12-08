@@ -34,7 +34,15 @@ const ScreenDocuments = props => {
 
   return (
     <div className={classes.container}>
-      <Directory documents={documents} active={currentIndex} onSelect={handleSelect} />
+      <Directory>
+        {documents.map((doc, i) =>
+          <Directory.Item 
+            label={doc.name} 
+            active={i === currentIndex} 
+            onClick={() => handleSelect(i)}
+            dirty={doc.dirty} />
+        )}
+      </Directory>
       <div className={classes['editor-container']}>
         {currentDocument ?
           <Editor name={currentDocument.name} text={currentDocument.text} onChange={handleTextChange} /> :
