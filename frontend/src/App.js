@@ -1,5 +1,4 @@
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
   Outlet,
@@ -12,12 +11,11 @@ import Sidebar from './components/Sidebar/Sidebar'
 import Actionbar from './components/Actionbar/Actionbar';
 import FlexFill from './components/FlexFill/FlexFill';
 
-import ScreenDocuments from './screens/ScreenDocuments/ScreenDocuments';
-
 import IconCode from './icons/IconCode';
 import IconBin from './icons/IconBin'
 
 import './App.css';
+import EditorScreen from './screens/ScreenDocuments/EditorScreen';
 
 const ScreenBin = () =>{
   return <div>Bin</div>
@@ -62,16 +60,17 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Navigate to="/edit" />} />
-            <Route path="/edit" element={<ScreenDocuments />} />
-            <Route path="/bin" element={<ScreenBin />} />
-            <Route path="*" element={<Navigate to="/edit" />} />
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Navigate to="/edit" />} />
+          <Route path="/edit" element={<EditorScreen.Layout />}>
+            <Route index element={<EditorScreen.Placeholder>Open a file to edit.</EditorScreen.Placeholder>} />
+            <Route path=":name" element={<EditorScreen.EditorWrapper />} />
           </Route>
-        </Routes>
-      </Router>
+          <Route path="/bin" element={<ScreenBin />} />
+          <Route path="*" element={<Navigate to="/edit" />} />
+        </Route>
+      </Routes>
     </div>
   );
 }

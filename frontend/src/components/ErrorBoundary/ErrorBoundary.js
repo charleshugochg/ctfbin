@@ -28,9 +28,13 @@ class ErrorBoundary extends React.Component {
   }
 
   render () {
-    if (this.state.error.code === UNAUTHORIZED || this.state.error.code === FORBIDDEN)
-      return <>Please login first.</>
-    return this.props.children
+    switch (this.state.error.code) {
+      case UNAUTHORIZED:
+      case FORBIDDEN:
+        return <>Please login first.</>
+      default:
+        return this.props.children
+    }
   }
 }
 
