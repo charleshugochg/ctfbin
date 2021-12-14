@@ -1,7 +1,7 @@
 import { Icon } from 'semantic-ui-react'
 
-const IconBin = (props) => {
+const PlusIcon = (props) => {
   return <Icon name="plus" {...props}/>
 }
 
-export default IconBin
+export default PlusIcon

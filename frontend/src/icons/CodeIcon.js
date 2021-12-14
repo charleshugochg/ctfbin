@@ -1,7 +1,7 @@
 import { Icon } from 'semantic-ui-react'
 
-const IconCode = props => {
+const CodeIcon = props => {
   return <Icon name="code" {...props}/>
 }
 
-export default IconCode
+export default CodeIcon

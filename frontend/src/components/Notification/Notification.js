@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 
 import IconBotton from '../IconButton/IconButton'
-import IconX from '../../icons/IconX'
+import XIcon from '../../icons/XIcon'
 
 import NotificationContext from '../../contexts/NotificationContext'
 
@@ -13,7 +13,7 @@ const Notification = props => {
     <div className={classes.container}>
       <div className={classes.wrapper} data-disabled={state.hidden} data-warmed={state.warmed}>
         <span>{state.text}</span>
-        <IconBotton onClick={hide} className={classes['btn-close']} iconcomponent={<IconX variant="outline"/>} />
+        <IconBotton onClick={hide} className={classes['btn-close']} iconcomponent={<XIcon variant="outline"/>} />
       </div>
     </div>
   )

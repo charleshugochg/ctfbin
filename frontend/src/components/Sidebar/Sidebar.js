@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import SurfaceContainer from '../SurfaceContainer/SurfaceContainer'
 import MenuButton from '../MenuButton/MenuButton'
-import IconChevronLeft from '../../icons/IconChevronLeft'
-import IconChevronRight from '../../icons/IconChevronRight'
+import LeftChevronIcon from '../../icons/LeftChevronIcon'
+import RightChevronIcon from '../../icons/RightChevronIcon'
 
 import classes from './sidebar.module.css'
 
 const Sidebar = props => {
   const [collapse, setCollapse] = useState(true)
   const menuButtonState = collapse ? "collapse" : ""
-  const collapseButtonIcon = collapse ? IconChevronRight : IconChevronLeft
+  const collapseButtonIcon = collapse ? RightChevronIcon : LeftChevronIcon
   let children = props.children
 
   if (typeof children === 'function')

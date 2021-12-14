@@ -1,7 +1,7 @@
 import { Icon } from 'semantic-ui-react'
 
-const IconChevronLeft = (props) => {
+const LeftChevronIcon = (props) => {
   return <Icon name="chevron left" {...props} />
 }
 
-export default IconChevronLeft
+export default LeftChevronIcon

@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import classes from './actionbar.module.css'
 
 import IconButton from '../IconButton/IconButton'
-import IconSave from '../../icons/IconSave'
+import SaveIcon from '../../icons/SaveIcon'
 
 import DocumentContext from '../../contexts/DocumentContext'
 import useError from '../../hooks/Error'
@@ -30,7 +30,7 @@ const Actionbar = props => {
       <Item
         onClick={handleSave}
         active={currentDocument && currentDocument.dirty}>
-        <IconSave variant="outline" />
+        <SaveIcon variant="outline" />
       </Item>
     </div>
   )

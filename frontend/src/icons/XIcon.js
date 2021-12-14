@@ -1,7 +1,7 @@
 import { Icon } from 'semantic-ui-react'
 
-const IconBin = (props) => {
+const XIcon = (props) => {
   return <Icon name="close" {...props}/>
 }
 
-export default IconBin
+export default XIcon

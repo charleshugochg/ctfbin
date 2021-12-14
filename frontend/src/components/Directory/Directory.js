@@ -4,7 +4,7 @@ import classes from './directory.module.css'
 import SurfaceContainer from '../SurfaceContainer/SurfaceContainer'
 import MenuButton from '../MenuButton/MenuButton'
 
-import IconPlus from '../../icons/IconPlus'
+import PlusIcon from '../../icons/PlusIcon'
 
 export const Directory = ({ children, ...props }) => {
   const count = React.Children.count(children)
@@ -22,7 +22,7 @@ export const Directory = ({ children, ...props }) => {
           alignSelf: "center"
         }}
         label={"Create New File"} 
-        iconcomponent={IconPlus}
+        iconcomponent={PlusIcon}
         data-variant="secondary"/>
     </SurfaceContainer>
   )

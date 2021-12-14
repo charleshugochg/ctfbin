@@ -11,8 +11,8 @@ import Sidebar from './components/Sidebar/Sidebar'
 import Actionbar from './components/Actionbar/Actionbar';
 import FlexFill from './components/FlexFill/FlexFill';
 
-import IconCode from './icons/IconCode';
-import IconBin from './icons/IconBin'
+import CodeIcon from './icons/CodeIcon';
+import BinIcon from './icons/BinIcon'
 
 import './App.css';
 import EditorScreen from './screens/ScreenDocuments/EditorScreen';
@@ -31,7 +31,7 @@ function Layout () {
               {match => (
                 <Sidebar.Item 
                   name="Documents"
-                  iconcomponent={IconCode}
+                  iconcomponent={CodeIcon}
                   data-active={!!match}
                   state={state}/>
               )}
@@ -40,7 +40,7 @@ function Layout () {
               {match => (
                 <Sidebar.Item 
                   name="Bin"
-                  iconcomponent={IconBin}
+                  iconcomponent={BinIcon}
                   data-active={!!match}
                   state={state}/>
               )}
