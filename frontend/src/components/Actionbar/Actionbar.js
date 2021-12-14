@@ -27,12 +27,22 @@ const Actionbar = props => {
 
   return (
     <div className={classes.container}>
-      <IconButton 
+      <Item
         onClick={handleSave}
-        iconcomponent={<IconSave variant="outline"/>} 
-        data-disabled={!currentDocument || !currentDocument.dirty}/>
+        active={currentDocument && currentDocument.dirty}>
+        <IconSave variant="outline" />
+      </Item>
     </div>
   )
 }
+
+const Item = ({ onClick, children, active, ...props }) => {
+  return <IconButton 
+        onClick={onclick}
+        iconcomponent={children} 
+        data-disabled={!active} {...props}/>
+}
+
+Actionbar.Item = Item
 
 export default Actionbar
