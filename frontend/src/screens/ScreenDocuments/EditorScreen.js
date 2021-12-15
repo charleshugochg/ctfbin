@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 import { Outlet, useParams, useNavigate } from 'react-router-dom'
-import classes from './screendocuments.module.css'
+import classes from './editorscreen.module.css'
 
 import Directory from '../../components/Directory/Directory'
 import Editor from '../../components/Editor/Editor'
 import LinkMatch from '../../components/LinkMatch/LinkMatch'
 
-import { useDocument, useStatus } from '../../contexts/DocumentContextV2'
+import { useDocument, useStatus } from '../../contexts/DocumentContext'
 import Exception, { FILE_NOT_FOUND } from '../../exceptions'
 import { useNotification } from '../../contexts/NotificationContext'
 

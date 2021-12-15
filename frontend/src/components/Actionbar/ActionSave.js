@@ -1,5 +1,5 @@
-import { useDocument } from '../../contexts/DocumentContextV2'
-import { useNotification } from '../../contexts/NotificationContext'
+import { useDocument } from '../../contexts/DocumentContext'
+import useError from '../../hooks/Error'
 import Exception from '../../exceptions'
 
 import SaveIcon from '../../icons/SaveIcon'
@@ -7,14 +7,13 @@ import IconButton from '../IconButton/IconButton'
 
 export const ActionSave = ({ name, ...props }) => {
   const [doc, documentActions] = useDocument(name)
-  const [_, notificationActions] = useNotification()
+  const setError = useError()
   
   const handleClick = async () => {
     try {
-      documentActions.saveDocument(name)
+      await documentActions.saveDocument(name)
     } catch (err) {
-      if (err instanceof Exception)
-        notificationActions.notify(err.message, true)
+      setError(err)
     }
   }
 
