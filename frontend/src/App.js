@@ -14,8 +14,9 @@ import FlexFill from './components/FlexFill/FlexFill';
 import CodeIcon from './icons/CodeIcon';
 import BinIcon from './icons/BinIcon'
 
-import './App.css';
 import EditorScreen from './screens/EditorScreen/EditorScreen';
+
+import './App.css';
 
 const ScreenBin = () =>{
   return <div>Bin</div>
