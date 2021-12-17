@@ -15,7 +15,7 @@ import CodeIcon from './icons/CodeIcon';
 import BinIcon from './icons/BinIcon'
 
 import './App.css';
-import EditorScreen from './screens/ScreenDocuments/EditorScreen';
+import EditorScreen from './screens/EditorScreen/EditorScreen';
 
 const ScreenBin = () =>{
   return <div>Bin</div>
