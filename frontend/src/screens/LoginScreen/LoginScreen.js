@@ -20,7 +20,7 @@ export const LoginScreen = (props) => {
     <div className={classes.container}>
       <form className={classes.form} onSubmit={handleFormSubmit}>
         <EditText value={pwd} placeholder="Enter your password" type="password" onChange={handleTextChange} />
-        <Button text="login" type="submit"/>
+        <Button text="login" onClick={handleFormSubmit} />
       </form>
     </div>
   )
