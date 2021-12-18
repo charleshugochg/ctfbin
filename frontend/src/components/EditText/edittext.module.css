@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  position: relative;
+  align-items: center;
+  background-color: var(--background-gray);
+  padding: var(--spacing-small);
+  border-radius: var(--border-radius);
+}
+
+.icon {
+  position: absolute;
+  left: 0;
+  margin-left: var(--spacing-tiny);
+  color: var(--on-surface-gray);
+}
+
+.input {
+  flex-grow: 1;
+  margin-left: var(--spacing-large);
+  padding: var(--spacing-tiny) 0;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  color: var(--on-surface-gray);
+  font-weight: bold;
+}
+
+.input::placeholder {
+  color: var(--on-surface-gray);
+}
+
+.input:focus {
+  color: var(--on-surface);
+  border-bottom: 1px solid var(--on-surface);
+}
+
+.input:focus ~ .icon {
+  color: var(--on-surface);
+}
