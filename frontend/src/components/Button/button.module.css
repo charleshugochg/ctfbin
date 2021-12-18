@@ -1,0 +1,22 @@
+.container {
+  width: 100%;
+  padding: var(--spacing-small);
+  background-color: var(--on-background);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.container:hover {
+  background-color: var(--primary-variant);
+}
+
+.container[disabled] {
+  color: var(--on-surface-gray);
+  cursor: auto;
+}
+
+.container[disabled]:hover {
+  background-color: var(--on-background);
+}
