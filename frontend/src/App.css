@@ -21,7 +21,8 @@
 
   --menu-width: 140px;
   --directory-width: 200px;
-  --field-width: 200px;
+  --form-width: 240px;
+  --button-width: 200px;
 }
 
 .App {
