@@ -17,6 +17,8 @@ import BinIcon from './icons/BinIcon'
 import EditorScreen from './screens/EditorScreen/EditorScreen';
 import LoginScreen from './screens/LoginScreen/LoginScreen';
 
+import ErrorBaundary from './components/ErrorBoundary/ErrorBoundary'
+
 import './App.css';
 
 const ScreenBin = () =>{
@@ -25,7 +27,7 @@ const ScreenBin = () =>{
 
 function Layout () {
   return (
-    <>
+    <ErrorBaundary>
       <Sidebar>
         {state => (
           <>
@@ -54,7 +56,7 @@ function Layout () {
         <Outlet />
       </FlexFill>
       <Actionbar />
-    </>
+    </ErrorBaundary>
   )
 }
 

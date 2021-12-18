@@ -1,4 +1,5 @@
 import React from "react";
+import { Navigate } from "react-router";
 import NotificationContext from '../../contexts/NotificationContext'
 import { FORBIDDEN, UNAUTHORIZED } from "../../exceptions";
 
@@ -31,7 +32,7 @@ class ErrorBoundary extends React.Component {
     switch (this.state.error.code) {
       case UNAUTHORIZED:
       case FORBIDDEN:
-        return <>Please login first.</>
+        return <Navigate to="/login" />
       default:
         return this.props.children
     }

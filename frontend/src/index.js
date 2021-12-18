@@ -6,16 +6,13 @@ import 'semantic-ui-css/semantic.min.css'
 import App from './App';
 import { DocumentProvider } from './contexts/DocumentContext'
 import { NotificationProvider } from './contexts/NotificationContext'
-import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
 ReactDOM.render(
   <React.StrictMode>
     <DocumentProvider>
       <NotificationProvider>
         <Router>
-          <ErrorBoundary>
-            <App />
-          </ErrorBoundary>
+          <App />
         </Router>
       </NotificationProvider>
     </DocumentProvider>
