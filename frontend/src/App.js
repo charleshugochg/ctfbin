@@ -15,6 +15,7 @@ import CodeIcon from './icons/CodeIcon';
 import BinIcon from './icons/BinIcon'
 
 import EditorScreen from './screens/EditorScreen/EditorScreen';
+import LoginScreen from './screens/LoginScreen/LoginScreen';
 
 import './App.css';
 
@@ -24,7 +25,7 @@ const ScreenBin = () =>{
 
 function Layout () {
   return (
-    <Main>
+    <>
       <Sidebar>
         {state => (
           <>
@@ -53,7 +54,7 @@ function Layout () {
         <Outlet />
       </FlexFill>
       <Actionbar />
-    </Main>
+    </>
   )
 }
 
@@ -61,17 +62,20 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Navigate to="/edit" />} />
-          <Route path="/edit" element={<EditorScreen.Layout />}>
-            <Route index element={<EditorScreen.Placeholder>Open a file to edit.</EditorScreen.Placeholder>} />
-            <Route path=":name" element={<EditorScreen.EditorWrapper />} />
+      <Main>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Navigate to="/edit" />} />
+            <Route path="/edit" element={<EditorScreen.Layout />}>
+              <Route index element={<EditorScreen.Placeholder>Open a file to edit.</EditorScreen.Placeholder>} />
+              <Route path=":name" element={<EditorScreen.EditorWrapper />} />
+            </Route>
+            <Route path="/bin" element={<ScreenBin />} />
+            <Route path="*" element={<Navigate to="/edit" />} />
           </Route>
-          <Route path="/bin" element={<ScreenBin />} />
-          <Route path="*" element={<Navigate to="/edit" />} />
-        </Route>
-      </Routes>
+          <Route path="/login" element={<LoginScreen />} />
+        </Routes>
+      </Main>
     </div>
   );
 }

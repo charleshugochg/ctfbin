@@ -1,6 +1,10 @@
+import classes from './loginscreen.module.css'
+
 export const LoginScreen = (props) => {
   return (
-    <>Login screen</>
+    <div className={classes.container}>
+      Login screen
+    </div>
   )
 }
 
