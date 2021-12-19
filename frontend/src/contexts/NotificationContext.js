@@ -13,6 +13,7 @@ const defaults = {
 }
 
 const TIMEOUT_INTERVAL = 3000
+const ANIMATION_DELAY = 100
 const SHOW_TEXT = 'SHOW_TEXT'
 const HIDE_TEXT = 'HIDE_TEXT'
 
@@ -46,6 +47,13 @@ const reducer = (state, action) => {
 
 const makeActions = (state, dispatch) => ({
   notify: async function (text, warmed=false) {
+    if (timeout) {
+      clearTimeout(timeout)
+      this.hide()
+      timeout = setTimeout(() => this.showfor(text, warmed, TIMEOUT_INTERVAL), ANIMATION_DELAY)
+    } else this.showfor(text, warmed, TIMEOUT_INTERVAL)
+  },
+  showfor: function (text, warmed, duration) {
     dispatch({
       type: SHOW_TEXT,
       payload: {
@@ -55,11 +63,7 @@ const makeActions = (state, dispatch) => ({
     })
     if (timeout)
       clearTimeout(timeout)
-    timeout = setTimeout(() => {
-      dispatch({
-        type: HIDE_TEXT
-      })
-    }, TIMEOUT_INTERVAL)
+    timeout = setTimeout(this.hide, duration)
   },
   hide: function () {
     dispatch({
