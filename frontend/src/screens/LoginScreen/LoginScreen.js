@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import classes from './loginscreen.module.css'
 
 import EditText from '../../components/EditText/EditText'
@@ -14,7 +14,8 @@ export const LoginScreen = (props) => {
   const [pwd, setPwd] = useState('')
   const [_, actions] = useNotification()
   const navigate = useNavigate()
-  const to = '/'
+  const location = useLocation()
+  const to = location.state && location.state.from && location.state.from.pathname || '/'
 
   const handleFormSubmit = async (e) => {
     e.preventDefault()
