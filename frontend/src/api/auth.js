@@ -11,3 +11,10 @@ export const check = async () => {
     withCredentials: true
   })
 }
+
+export const login = async (password) => {
+  const url = `${endpoint}/login`
+  await axios.post(url, {
+    password
+  })
+}
