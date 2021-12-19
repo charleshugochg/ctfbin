@@ -20,6 +20,7 @@ import LoginScreen from './screens/LoginScreen/LoginScreen';
 import ErrorBaundary from './components/ErrorBoundary/ErrorBoundary'
 
 import './App.css';
+import { AuthRequire } from './components/AuthRequire/AuthRequire';
 
 const ScreenBin = () =>{
   return <div>Bin</div>
@@ -28,34 +29,36 @@ const ScreenBin = () =>{
 function Layout () {
   return (
     <ErrorBaundary>
-      <Sidebar>
-        {state => (
-          <>
-            <LinkMatch to="/edit">
-              {match => (
-                <Sidebar.Item 
-                  name="Documents"
-                  iconcomponent={CodeIcon}
-                  data-active={!!match}
-                  state={state}/>
-              )}
-            </LinkMatch>
-            <LinkMatch to="/bin">
-              {match => (
-                <Sidebar.Item 
-                  name="Bin"
-                  iconcomponent={BinIcon}
-                  data-active={!!match}
-                  state={state}/>
-              )}
-            </LinkMatch>
-          </>
-        )}
-      </Sidebar>
-      <FlexFill>
-        <Outlet />
-      </FlexFill>
-      <Actionbar />
+      <AuthRequire>
+        <Sidebar>
+          {state => (
+            <>
+              <LinkMatch to="/edit">
+                {match => (
+                  <Sidebar.Item 
+                    name="Documents"
+                    iconcomponent={CodeIcon}
+                    data-active={!!match}
+                    state={state}/>
+                )}
+              </LinkMatch>
+              <LinkMatch to="/bin">
+                {match => (
+                  <Sidebar.Item 
+                    name="Bin"
+                    iconcomponent={BinIcon}
+                    data-active={!!match}
+                    state={state}/>
+                )}
+              </LinkMatch>
+            </>
+          )}
+        </Sidebar>
+        <FlexFill>
+          <Outlet />
+        </FlexFill>
+        <Actionbar />
+      </AuthRequire>
     </ErrorBaundary>
   )
 }
