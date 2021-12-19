@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 import NotificationContext from '../../contexts/NotificationContext'
 import { FORBIDDEN, UNAUTHORIZED } from "../../exceptions";
 
@@ -29,14 +29,20 @@ class ErrorBoundary extends React.Component {
   }
 
   render () {
+    const { location } = this.props
     switch (this.state.error.code) {
       case UNAUTHORIZED:
       case FORBIDDEN:
-        return <Navigate to="/login" />
+        return <Navigate to="/login" state={{ from: location }} />
       default:
         return this.props.children
     }
   }
 }
 
-export default ErrorBoundary
+const Wrapper = (props) => {
+  const location = useLocation()
+  return <ErrorBoundary location={location} {...props} />
+}
+
+export default Wrapper
