@@ -17,12 +17,14 @@ export const getDocument = async (fileName) => {
 }
 
 export const createDocument = async (fileName, text) => {
+  const file = new File([text], fileName, { type: 'text/plain' })
   const formData = new FormData()
-  formData.append('file', text, fileName)
+  formData.append('file', file)
   const config = {
     headers: {
       'content-type': 'multipart/form-data'
-    }
+    },
+    withCredentials: true
   }
   const res = await axios.post(endpoint, formData, config)
   return res.data
