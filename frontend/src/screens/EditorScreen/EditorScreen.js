@@ -6,15 +6,35 @@ import Directory from '../../components/Directory/Directory'
 import Editor from '../../components/Editor/Editor'
 import LinkMatch from '../../components/LinkMatch/LinkMatch'
 
+import MenuButton from '../../components/MenuButton/MenuButton'
+
+import PlusIcon from '../../icons/PlusIcon'
+
 import { useDocument, useStatus } from '../../contexts/DocumentContext'
 import Exception, { FILE_NOT_FOUND } from '../../exceptions'
 import { useNotification } from '../../contexts/NotificationContext'
 
 export const Layout = (props) => {
   const status = useStatus()
+
+  const handleCreate = () => {
+    console.log('handle create')
+  }
+  
   return (
     <div className={classes.container}>
-      <Directory>
+      <Directory actions={
+        <MenuButton
+          style={{
+            marginTop: "auto",
+            marginBottom: 0,
+            alignSelf: "center"
+          }}
+          onClick={handleCreate}
+          label={"Create New File"} 
+          iconcomponent={PlusIcon}
+          data-variant="secondary"/>
+      }>
         {Object.entries(status).map(([name, dirty]) =>
           <LinkMatch key={name} to={`/edit/${name}`}>
             {match =>

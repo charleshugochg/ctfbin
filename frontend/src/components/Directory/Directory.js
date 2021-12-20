@@ -2,11 +2,8 @@ import React from 'react'
 import classes from './directory.module.css'
 
 import SurfaceContainer from '../SurfaceContainer/SurfaceContainer'
-import MenuButton from '../MenuButton/MenuButton'
 
-import PlusIcon from '../../icons/PlusIcon'
-
-export const Directory = ({ children, ...props }) => {
+export const Directory = ({ children, actions, ...props }) => {
   const count = React.Children.count(children)
   return (
     <SurfaceContainer className={classes.container}>
@@ -15,15 +12,7 @@ export const Directory = ({ children, ...props }) => {
         <p>Directory of {count} files</p>
       </div>
       {children}
-      <MenuButton
-        style={{
-          marginTop: "auto",
-          marginBottom: 0,
-          alignSelf: "center"
-        }}
-        label={"Create New File"} 
-        iconcomponent={PlusIcon}
-        data-variant="secondary"/>
+      {actions}
     </SurfaceContainer>
   )
 }
