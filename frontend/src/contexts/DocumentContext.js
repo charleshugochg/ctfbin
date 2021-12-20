@@ -1,5 +1,5 @@
 import { createContext, useEffect, useCallback, useReducer, useContext } from 'react'
-import { getDocuments, getDocument, patchDocument } from '../api/documents'
+import { getDocuments, getDocument, patchDocument, createDocument } from '../api/documents'
 import { md5hash, diffPatchText } from '../utils'
 
 import Exception, { CONTENT_OUT_OF_DATE, FILE_NOT_FOUND } from '../exceptions'
@@ -86,6 +86,10 @@ const makeActions = (state, dispatch) => ({
         name, text
       }
     })
+  },
+  createDocument: async function (name, text) {
+    await createDocument(name, text)
+    await this.newDocument(name, text)
   },
   fetchDocument: async function (name) {
     const remoteText = await getDocument(name)
