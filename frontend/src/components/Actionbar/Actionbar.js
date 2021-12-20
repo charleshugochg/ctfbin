@@ -1,6 +1,7 @@
 import classes from './actionbar.module.css'
 
 import ActionSave from './ActionSave'
+import ActionDelete from './ActionDelete'
 
 import IconButton from '../IconButton/IconButton'
 import DeleteIcon from '../../icons/DeleteIcon'
@@ -12,10 +13,7 @@ const Actionbar = (props) => {
   return (
     <div className={classes.container}>
       {name && <ActionSave name={name} />}
-      <IconButton 
-        onClick={()=>{}}
-        iconcomponent={<DeleteIcon variant="alternate outline" />} 
-        data-disabled={false}/>
+      {name && <ActionDelete name={name} />}
     </div>
   )
 }

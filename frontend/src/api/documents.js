@@ -47,6 +47,8 @@ export const patchDocument = async (filename, hash, patchText) => {
 
 export const deleteDocument = async (filename) => {
   const url = `${endpoint}/${filename}`
-  const res = await axios.delete(url)
+  const res = await axios.delete(url, {
+    withCredentials: true
+  })
   return res.data
 }

@@ -1,5 +1,5 @@
 import { createContext, useEffect, useCallback, useReducer, useContext } from 'react'
-import { getDocuments, getDocument, patchDocument, createDocument } from '../api/documents'
+import { getDocuments, getDocument, patchDocument, createDocument, deleteDocument } from '../api/documents'
 import { md5hash, diffPatchText } from '../utils'
 
 import Exception, { CONTENT_OUT_OF_DATE, FILE_NOT_FOUND } from '../exceptions'
@@ -36,7 +36,7 @@ const reducer = (state, action) => {
     case REMOVE_DOCUMENT: {
       const { name } = action.payload
       return Object.fromEntries(
-        Object.entries(state).filter(([k, _]) => k === name)
+        Object.entries(state).filter(([k, _]) => k !== name)
       )
     }
 
@@ -106,6 +106,10 @@ const makeActions = (state, dispatch) => ({
     if (result.hash !== md5hash(doc.text))
       throw new Exception (CONTENT_OUT_OF_DATE, 'Please update the content.')
     await this.newDocument(name, doc.text, doc.text)
+  },
+  deleteDocument: async function (name) {
+    await deleteDocument(name)
+    await this.removeDocument(name)
   }
 })
 
