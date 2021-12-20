@@ -16,7 +16,7 @@ export const getDocument = async (fileName) => {
   return res.data
 }
 
-export const postDocument = async (fileName, text) => {
+export const createDocument = async (fileName, text) => {
   const formData = new FormData()
   formData.append('file', text, fileName)
   const config = {
@@ -40,5 +40,11 @@ export const patchDocument = async (filename, hash, patchText) => {
     withCredentials: true
   }
   const res = await axios.post(url, formData, config)
+  return res.data
+}
+
+export const deleteDocument = async (filename) => {
+  const url = `${endpoint}/${filename}`
+  const res = await axios.delete(url)
   return res.data
 }
