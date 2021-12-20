@@ -139,7 +139,7 @@ export const useStatus = () => {
 
 export const useDocument = (name) => {
   const [documents, actions] = useContext(context)
-  const doc = documents[name] || {}
+  const doc = documents[name] || { text: '', remoteText: null }
 
   return [
     doc,

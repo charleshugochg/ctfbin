@@ -3,7 +3,7 @@ import Exception, { BAD_REQUEST, CONTENT_OUT_OF_DATE, FILE_NOT_FOUND, FORBIDDEN,
 
 axios.interceptors.response.use(function (res) { return res }, function (error) {
   if (error.response) {
-    let code
+    let code, data = error.response.data
     switch (error.response.status) {
       case 400: {
         if (error.response.data.includes('update'))
@@ -22,6 +22,7 @@ axios.interceptors.response.use(function (res) { return res }, function (error) 
       }
       case 404: {
         code = FILE_NOT_FOUND
+        data = 'File not found.'
         break
       }
       case 500: {
@@ -29,7 +30,7 @@ axios.interceptors.response.use(function (res) { return res }, function (error) 
         break
       }
     }
-    return Promise.reject(new Exception(code, error.response.data))
+    return Promise.reject(new Exception(code, data))
   }
   return Promise.reject(error)
 })
