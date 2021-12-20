@@ -22,12 +22,12 @@ const reducer = (state, action) => {
   switch (action.type) {
 
     case ADD_DOCUMENT: {
-      const { name, text, dirty } = action.payload
+      const { name, text, remoteText, dirty } = action.payload
       return {
         ...state,
         [name]: {
           text,
-          remoteText: text,
+          remoteText,
           dirty
         }
       }
@@ -61,12 +61,13 @@ const reducer = (state, action) => {
 }
 
 const makeActions = (state, dispatch) => ({
-  newDocument: async function (name, text) {
+  newDocument: async function (name, text, remoteText) {
     dispatch({
       type: ADD_DOCUMENT,
       payload: {
         name,
         text,
+        remoteText,
         dirty: false
       }
     })
@@ -89,11 +90,11 @@ const makeActions = (state, dispatch) => ({
   },
   createDocument: async function (name, text) {
     await createDocument(name, text)
-    await this.newDocument(name, text)
+    await this.newDocument(name, text, text)
   },
   fetchDocument: async function (name) {
     const remoteText = await getDocument(name)
-    await this.newDocument(name, remoteText)
+    await this.newDocument(name, remoteText, remoteText)
   },
   saveDocument: async function (name) {
     const doc = state[name]
@@ -104,7 +105,7 @@ const makeActions = (state, dispatch) => ({
     const result = await patchDocument(name, hash, patchText)
     if (result.hash !== md5hash(doc.text))
       throw new Exception (CONTENT_OUT_OF_DATE, 'Please update the content.')
-    await this.newDocument(name, doc.text)
+    await this.newDocument(name, doc.text, doc.text)
   }
 })
 
@@ -116,7 +117,7 @@ export const DocumentProvider = ({children}) => {
     (async function () {
       const names = await getDocuments()
       names.forEach(name => {
-        actions.newDocument(name, '') 
+        actions.newDocument(name, '', null) 
       });
     })()
   }, [])

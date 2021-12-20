@@ -69,7 +69,7 @@ export const EditorWrapper = (props) => {
   useEffect(() => {
     (async function () {
       try {
-        if (!doc.text)
+        if (doc.remoteText === null)
           await documentActions.fetchDocument(name)
       } catch (err) {
         if (err instanceof Exception) {
@@ -81,7 +81,7 @@ export const EditorWrapper = (props) => {
     })()
   }, [name, doc])
 
-  if (!doc.text) {
+  if (doc.remoteText === null) {
     return <Placeholder>Loading...</Placeholder>
   }
 
