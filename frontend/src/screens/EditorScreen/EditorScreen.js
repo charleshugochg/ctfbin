@@ -17,12 +17,14 @@ import { useNotification } from '../../contexts/NotificationContext'
 export const Layout = (props) => {
   const status = useStatus()
   const [_, actions] = useDocument('')
+  const navigate = useNavigate()
 
   const handleCreate = async () => {
     const filename = prompt('Enter file name')
     const text = prompt('Enter text')
     try {
       await actions.createDocument(filename, text)
+      navigate(filename)
     } catch (err) {
       console.error(err)
     }
