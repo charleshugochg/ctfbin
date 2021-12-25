@@ -12,8 +12,10 @@ export const ActionDelete = ({ name, ...props }) => {
   
   const handleClick = async () => {
     try {
-      navigate('')
-      await documentActions.deleteDocument(name)
+      if (window.confirm(`Are you sure to delete ${name}`)) {
+        navigate('')
+        await documentActions.deleteDocument(name)
+      }
     } catch (err) {
       setError(err)
     }
