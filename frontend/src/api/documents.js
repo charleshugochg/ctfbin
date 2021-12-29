@@ -45,6 +45,20 @@ export const patchDocument = async (filename, hash, patchText) => {
   return res.data
 }
 
+export const renameDocument = async (filename, newname) => {
+  const url = `${endpoint}/${filename}`
+  const formData = new FormData()
+  formData.append('name', newname)
+  const config = {
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    withCredentials: true
+  }
+  const res = await axios.put(url, formData, config)
+  return res.data
+}
+
 export const deleteDocument = async (filename) => {
   const url = `${endpoint}/${filename}`
   const res = await axios.delete(url, {

@@ -2,9 +2,8 @@ import classes from './actionbar.module.css'
 
 import ActionSave from './ActionSave'
 import ActionDelete from './ActionDelete'
+import ActionRename from './ActionRename'
 
-import IconButton from '../IconButton/IconButton'
-import DeleteIcon from '../../icons/DeleteIcon'
 import { useMatch } from 'react-router'
 
 const Actionbar = (props) => {
@@ -14,6 +13,7 @@ const Actionbar = (props) => {
     <div className={classes.container}>
       {name && <ActionSave name={name} />}
       {name && <ActionDelete name={name} />}
+      {name && <ActionRename name={name} />}
     </div>
   )
 }

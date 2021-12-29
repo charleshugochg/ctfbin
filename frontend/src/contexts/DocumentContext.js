@@ -1,5 +1,5 @@
 import { createContext, useEffect, useCallback, useReducer, useContext } from 'react'
-import { getDocuments, getDocument, patchDocument, createDocument, deleteDocument } from '../api/documents'
+import { getDocuments, getDocument, patchDocument, createDocument, deleteDocument, renameDocument } from '../api/documents'
 import { md5hash, diffPatchText } from '../utils'
 
 import Exception, { CONTENT_OUT_OF_DATE, FILE_NOT_FOUND } from '../exceptions'
@@ -106,6 +106,14 @@ const makeActions = (state, dispatch) => ({
     if (result.hash !== md5hash(doc.text))
       throw new Exception (CONTENT_OUT_OF_DATE, 'Please update the content.')
     await this.newDocument(name, doc.text, doc.text)
+  },
+  renameDocument: async function (name, newname) {
+    const doc = state[name]
+    if (!doc)
+      throw new Exception (FILE_NOT_FOUND, 'Please make sure the file exists.')
+    await renameDocument(name, newname)
+    await this.newDocument(newname, doc.text, doc.text)
+    await this.removeDocument(name)
   },
   deleteDocument: async function (name) {
     await deleteDocument(name)
