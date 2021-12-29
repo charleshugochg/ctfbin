@@ -7,7 +7,7 @@ const router = express.Router()
 const PATH = path.join(__dirname, '../documents/')
 
 const { patch, md5hash } = require('../utils')
-const { safeFilename } = require('../middlewares')
+const { safeFilename, fileExists } = require('../middlewares')
 
 const { requireAuth } = require('./auth')
 router.use(fileUpload({
@@ -38,11 +38,8 @@ router.post('/', requireAuth, async (req, res) => {
   })
 })
 
-router.post('/:filename', requireAuth, safeFilename, async (req, res) => {
-  const filename = req.params.filename
-  const filePath = path.join(PATH, filename)
-  if (!fs.existsSync(filePath))
-    return res.status(404).send('File not found.')
+router.post('/:filename', requireAuth, safeFilename, fileExists(PATH), async (req, res) => {
+  const filePath = req.filePath
   const { hash, patchText } = req.body
   const contentBuf = fs.readFileSync(filePath)
   const text = contentBuf.toString()
@@ -57,11 +54,21 @@ router.post('/:filename', requireAuth, safeFilename, async (req, res) => {
   })
 })
 
-router.delete('/:filename', requireAuth, safeFilename, async (req, res) => {
-  const filename = req.params.filename
-  const filePath = path.join(PATH, filename)
-  if (!fs.existsSync(filePath))
-    return res.status(404).send('File not found.')
+router.put('/:filename', requireAuth, safeFilename, fileExists(PATH), async (req, res) => {
+  const filePath = req.filePath
+  const { name } = req.body
+  const newFilePath = path.join(PATH, name)
+  try {
+    fs.renameSync(filePath, newFilePath)
+    res.send('OK')
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('Something went wrong!')
+  }
+})
+
+router.delete('/:filename', requireAuth, safeFilename, fileExists(PATH), async (req, res) => {
+  const filePath = req.filePath
   try {
     fs.unlinkSync(filePath)
     res.send('OK')
