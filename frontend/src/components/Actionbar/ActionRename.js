@@ -5,8 +5,10 @@ import useError from '../../hooks/Error'
 import EditIcon from '../../icons/EditIcon'
 import IconButton from '../IconButton/IconButton'
 
+import { renameDocument } from '../../api/documents'
+
 export const ActionRename = ({ name, ...props }) => {
-  const [_, documentActions] = useDocument(name)
+  const [doc, documentActions] = useDocument(name)
   const setError = useError()
   const navigate = useNavigate()
   
@@ -15,7 +17,10 @@ export const ActionRename = ({ name, ...props }) => {
       const newname = prompt('New Name')
       if (newname) {
         navigate('')
-        documentActions.renameDocument(name, newname)
+        await renameDocument(name, newname)
+        await documentActions.newDocument(newname, doc.text, doc.text)
+        await documentActions.removeDocument(name)
+        navigate(`/edit/${newname}`)
       }
     } catch (err) {
       setError(err)

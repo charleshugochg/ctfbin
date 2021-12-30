@@ -14,6 +14,8 @@ import { useDocument, useStatus } from '../../contexts/DocumentContext'
 import Exception, { FILE_NOT_FOUND } from '../../exceptions'
 import { useNotification } from '../../contexts/NotificationContext'
 
+import { createDocument, getDocument } from '../../api/documents'
+
 export const Layout = (props) => {
   const status = useStatus()
   const [, actions] = useDocument('')
@@ -24,7 +26,8 @@ export const Layout = (props) => {
     const filename = prompt('Enter file name')
     const text = prompt('Enter text')
     try {
-      await actions.createDocument(filename, text)
+      await createDocument(filename, text)
+      await actions.newDocument(filename, text, text)
       navigate(filename)
     } catch (err) {
       if (err instanceof Exception)
@@ -74,8 +77,10 @@ export const EditorWrapper = (props) => {
   useEffect(() => {
     (async function () {
       try {
-        if (doc.remoteText === null)
-          await documentActions.fetchDocument(name)
+        if (doc.remoteText === null) {
+          const text = await getDocument(name)
+          documentActions.newDocument(name, text, text)
+        }
       } catch (err) {
         if (err instanceof Exception) {
           if (err.code === FILE_NOT_FOUND)
