@@ -34,7 +34,7 @@ export const patchDocument = async (filename, hash, patchText) => {
   const url = `${endpoint}/${filename}`
   const formData = new FormData()
   formData.append('hash', hash)
-  formData.append('patchText', patchText)
+  formData.append('patchText', new Blob([patchText], {type: 'text/plain'}))
   const config = {
     headers: {
       'content-type': 'application/x-www-form-urlencoded'

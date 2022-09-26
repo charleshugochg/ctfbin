@@ -40,7 +40,8 @@ router.post('/', requireAuth, async (req, res) => {
 
 router.post('/:filename', requireAuth, safeFilename, fileExists(PATH), async (req, res) => {
   const filePath = req.filePath
-  const { hash, patchText } = req.body
+  const { hash } = req.body
+  const patchText = req.files.patchText.data.toString()
   const contentBuf = fs.readFileSync(filePath)
   const text = contentBuf.toString()
   if (hash !== md5hash(text))

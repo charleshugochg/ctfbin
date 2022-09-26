@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+const path = require('path')
 
 const { authRouter } = require('./routes/auth')
 const { binRouter } = require('./routes/bin')
@@ -23,8 +24,6 @@ if (process.env.NODE_ENV === 'development') {
   }))
 }
 
-app.use('/', express.static('./static'))
-
 app.use('/api/documents', documentRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/bin', binRouter)
@@ -34,6 +33,12 @@ app.use('/api/delay', async (req, res) => {
   const timeout = req.query.timeout || 0
   await new Promise(resolve => setTimeout(resolve, timeout))
   res.status(404).send('Time\'s up!')
+})
+
+app.use('/', express.static(path.join(__dirname, 'static')))
+
+app.use('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'static/index.html'))
 })
 
 app.listen(PORT, () => {
